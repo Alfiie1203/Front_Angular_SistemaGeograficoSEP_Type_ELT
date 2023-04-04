@@ -1,0 +1,189 @@
+<form [formGroup]="form" class="animate__animated animate__fadeIn" (ngSubmit)="createQuestion()">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="field">
+                <div class="d-flex title-input">
+                    <label class="d-block truncate-text"> {{'category' | translate}}</label> <span class="text-danger">*</span>
+                </div>
+                <p-dropdown id="listCategories" [options]="listCategories" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'selected_category' | translate" formControlName="listCategories" [autoDisplayFirst]="false" [ngClass]="{'ng-invalid ng-dirty': f['listCategories'].invalid && f['listCategories'].touched}"
+                    (onChange)="getListSubcategories()">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item country-item-value" *ngIf="form.value.listCategories">
+                            <div>{{form.get('listCategories')?.value.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-category pTemplate="item">
+                        <div class="country-item">
+                            <div>{{category.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+
+                <div *ngIf="f['listCategories'].invalid && f['listCategories'].touched && f['listCategories'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                    <small id="password-help" *ngIf="f['listCategories'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="field">
+                <div class="d-flex title-input">
+                    <label class="d-block truncate-text"> {{'subcategory' | translate}}</label> <span class="text-danger">*</span>
+                </div>
+                <p-dropdown id="listSubcategories" [options]="listSubcategories" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'selected_category' | translate" formControlName="listSubcategories" [autoDisplayFirst]="false" [ngClass]="{'ng-invalid ng-dirty': f['listSubcategories'].invalid && f['listSubcategories'].touched}"
+                    (onChange)="getListTopics()">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item country-item-value" *ngIf="form.value.listSubcategories">
+                            <div>{{form.get('listSubcategories')?.value.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-category pTemplate="item">
+                        <div class="country-item">
+                            <div>{{category.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+
+                <div *ngIf="f['listSubcategories'].invalid && f['listSubcategories'].touched && f['listSubcategories'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                    <small id="password-help" *ngIf="f['listSubcategories'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="field">
+                <div class="d-flex title-input">
+                    <label class="d-block truncate-text"> {{'topic' | translate}}</label> <span class="text-danger">*</span>
+                </div>
+                <p-dropdown id="listTopics" [options]="listTopics" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'selected_category' | translate" formControlName="listTopics" [autoDisplayFirst]="false" [ngClass]="{'ng-invalid ng-dirty': f['listTopics'].invalid && f['listTopics'].touched}">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item country-item-value" *ngIf="form.value.listTopics">
+                            <div>{{form.get('listTopics')?.value.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-category pTemplate="item">
+                        <div class="country-item">
+                            <div>{{category.name[lang.code]}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+
+                <div *ngIf="f['listTopics'].invalid && f['listTopics'].touched && f['listTopics'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                    <small id="password-help" *ngIf="f['listTopics'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12">
+            <input type="text" formControlName="label" class="form-control question-title-input question-input" [ngClass]="{'form-invalidate': f['label'].invalid && f['label'].touched}" [placeholder]="'write_question' | translate">
+            <div *ngIf="f['label'].invalid && f['label'].touched && f['label'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                <small id="password-help" *ngIf="f['label'].errors['required']" class="block">{{'required_field' | translate}}</small>
+            </div>
+        </div>
+        <div class="col-12">
+            <input type="text" formControlName="description" class="form-control question-des-input question-input" [placeholder]="'description' | translate">
+        </div>
+        <div class="col-12">
+            <div cdkDropList (cdkDropListDropped)="drop($event)" formArrayName="optionsTemp">
+                <div *ngFor="let option of optionsTemp.controls let optionIndex = index" cdkDrag #elem="cdkDrag" [formGroupName]="optionIndex">
+                    <div class="form-check d-flex align-items-center">
+                        <img cdkDragHandle [ngClass]="{'d-none': (form.value.optionsTemp.length-1) == optionIndex && form.value.optionsTemp.length>=1}" class="mt-1 me-1" style="cursor: move" src="assets/images/reorder.png" width="10px" alt="">
+                        <input class="form-check-input" type="radio" name="radioOption{{optionIndex}}" id="radioOption{{optionIndex}}">
+                        <input id="option{{optionIndex}}" name="option{{optionIndex}}" type="text" formControlName="option" class="form-control question-des-input question-input" [placeholder]="'write_option' | translate" (input)="addOption($event, optionIndex)">
+                        <img [ngClass]="{'d-none': (form.value.optionsTemp.length-1) == optionIndex}" class="mt-1 cursor-pointer" src="assets/images/deleteQuestion.png" (click)="deleteOption(optionIndex)" width="14px" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- <ng-container 
+                formArrayName="options" 
+                *ngFor="let option of form.value.options; let optionIndex = index"
+            >
+                <div class="form-check d-flex align-items-center">
+                    <img [ngClass]="{'invisible': (form.value.options.length-1) == optionIndex && form.value.options.length>=1}" class="mt-1 me-1" style="cursor: move" src="assets/images/reorder.png"width="10px" alt="">
+                    <input class="form-check-input" type="radio" name="radioOption{{optionIndex}}" id="radioOption{{optionIndex}}">
+                    <input 
+                        type="text" 
+                        class="form-control question-des-input question-input" 
+                        [placeholder]="'write_option' | translate"
+                        (input)="addOption($event, optionIndex)"
+                    >
+                    <img [ngClass]="{'invisible': (form.value.options.length-1) == optionIndex}" class="mt-1 cursor-pointer" src="assets/images/deleteQuestion.png" (click)="deleteOption(optionIndex)" width="14px" alt="">
+                </div>
+            </ng-container> -->
+        </div>
+        <div class="col-12">
+            <div class="field mt-2 mb-3" style="border-top: 2px solid #C8C8C8;"></div>
+            <div class="field d-flex">
+                <ng-container *ngIf="!loading; else load">
+                    <button class="btn btn-pf-primary order-xs-2" type="submit">
+                        <img src="assets/images/save.png" class="me-2 btn-img" width="20px" alt=""> {{'save' | translate}}
+                    </button>
+                </ng-container>
+                <ng-template #load>
+                    <span class="spinner-grow text-pf-primary d-block mx-auto order-xs-2" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                </ng-template>
+
+                <div class="d-flex align-items-center ms-auto">
+                    <label class="me-2">{{'selected_language' | translate}}</label>
+                    <p-dropdown (onChange)="changeLang()" formControlName="language" [options]="allLanguage" styleClass="p-language p-dropdown-option" optionLabel="name">
+                        <ng-template pTemplate="selectedItem">
+                            <div *ngIf="form.get('language')">
+                                <img [src]="form.get('language')?.value.name" width="30px" />
+                            </div>
+                        </ng-template>
+                        <ng-template let-lang pTemplate="item">
+                            <img [src]="lang.name" width="30px" />
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p-dialog [(visible)]="displayConfirm" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div *ngIf="!update" class="col-12">
+            <h3 class="text-center"><b> {{'register_success' | translate}} </b></h3>
+            <p>{{'description_register_success' | translate}}</p>
+        </div>
+        <div *ngIf="update" class="col-12">
+            <h3 class="text-center"><b> {{'update_success' | translate}} </b></h3>
+            <p>{{'description_update_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="listQuestion()"> {{'accept' | translate}} </button>
+        </div>
+        <div *ngIf="!update" class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" style="padding: 12px 0; width: 252.5px;" (click)="this.displayConfirm= false;this.displayAddQuestion=true;"> {{'create_other_question' | translate}} </button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="displayAddQuestion" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <p-dropdown appendTo="body" [options]="options" [(ngModel)]="selectedOption" [placeholder]="'select_option' | translate" optionLabel="name">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="selectedOption">
+                        <div class="align-items-center d-flex"> <img class="me-1" [src]="selectedOption.img" alt=""> {{selectedOption.name | translate}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-question pTemplate="item">
+                    <div class="question-item">
+                        <div class="align-items-center d-flex"><img width="15px" class="me-1" [src]="question.img" alt=""> {{question.name | translate}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="sendOption()"> {{'accept' | translate}} </button>
+        </div>
+        <div class="col-12 pt-1">
+            <button class="btn btn-pf-primary p-btn" style="padding: 12px 0; width: 252.5px;" routerLink="/question-bank"> {{'back' | translate}} </button>
+        </div>
+    </div>
+</p-dialog>

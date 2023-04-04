@@ -1,0 +1,557 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <button class="btn btn-pf-primary me-2" type="button" (click)="location.back()" style="margin-bottom: 0.5rem">
+            <img
+              src="assets/images/back.svg"
+              class="btn-img"
+              width="20px"
+              alt=""
+            />
+          </button>
+                    <h2 class="m-b-10" [innerHtml]="'supply_base_resumen' | translate | changeTitle"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card resumen  {{ !data ? 'defaul-height' : '' }}">
+            <app-load-table></app-load-table>
+            <div *ngIf="data" class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="border-title d-flex">
+                            {{ "resumen" | translate }} - {{ "year" | translate }} {{ data.register_year }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="traceability-resume dependencies-container mb-4">
+                    <div class="dependencies-title">{{ "company" | translate }}</div>
+                    <div>
+                        <h5>{{ data.company.name }}</h5>
+                    </div>
+                </div>
+
+                <div class="period-1">
+                    <div class="traceability-resume dependencies-container mb-4">
+                        <div class="dependencies-title title-xl">
+                            {{ "summary_traceability" | translate }} - {{ "semester" | translate }} 1
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let item of traceability_percentageP1" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="traceability-resume dependencies-container mb-4">
+                                    <div class="dependencies-title title-xl">
+                                        {{ item[0] | translate }}
+                                    </div>
+                                    <div class="text-center">
+                                        {{ item[3] }}
+                                    </div>
+                                </div>
+                            </div>
+                            <cdk-accordion class="resumen-accordion">
+                                <cdk-accordion-item #accordionItem1="cdkAccordionItem" class="resumen-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem1.expanded" [attr.aria-controls]="'accordion-body'">
+                                    <div class="resumen-accordion-item-header" (click)="accordionItem1.toggle()">
+                                        <div class="noselectable">{{ "alerts" | translate }}</div>
+                                        <span class="resumen-accordion-item-description noselectable">
+                      <img
+                        *ngIf="!accordionItem1.expanded"
+                        width="20px"
+                        src="assets/images/more-circle.png"
+                      />
+                      <img
+                        *ngIf="accordionItem1.expanded"
+                        width="20px"
+                        src="assets/images/minus-circle.png"
+                      />
+                    </span>
+                                    </div>
+                                    <div class="resumen-accordion-item-body animate__animated animate__fadeIn" role="region" [style.display]="accordionItem1.expanded ? '' : 'none'" [attr.id]="'accordion-body'" [attr.aria-labelledby]="'accordion-header'">
+                                        <div class="traceability-resume dependencies-container mb-4">
+                                            <div class="dependencies-title">
+                                                {{ "alert_table" | translate }}
+                                            </div>
+                                            <div>
+                                                <table mat-table multiTemplateDataRows [dataSource]="dataSourceTA1" class="table-list-business mb-2">
+                                                    <ng-container matColumnDef="actor_type">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "actor_types" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[0] | translate }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="traceability_registered">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "traceability_registered" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[1] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="registered_supply_base">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "registered_supply_base" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[2] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="alerts">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "alerts" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business alert-{{
+                                  element[3].toLowerCase()
+                                }}">
+                                {{ element[3] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="more">
+                                                        <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                                                            {{ "more" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <button class="btn border-none" style="margin-top: 5px" (click)="expand(element)">
+                            <i class="pi pi-chevron-down"></i>
+                          </button>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="expandedDetail">
+                                                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsTA.length">
+                                                            <div class="example-element-detail" [@detailExpand]="
+                              element == expandedElement ? 'expanded' : 'collapsed'
+                            ">
+                                                                <div class="py-3 w-75 d-block mx-auto more-business">
+                                                                    <div class="row">
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "traceability_registered" | translate }}</label>
+                                                                                <input type="text" class="w-100" pInputText readonly value="{{ element[1] }}" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "registered_supply_base" | translate }}</label>
+                                                                                <input type="text" class="w-100" pInputText readonly value="{{ element[2] }}" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "alerts" | translate }}</label>
+                                                                                <span class="d-block truncate-business alert-{{ element[3].toLowerCase() }}">
+                                                                                                    {{ element[3] }}
+                                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </ng-container>
+
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTA; sticky: true"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTA" class="resumen-element-row" [class.resumen-expanded-row]="
+                              displayedColumnsTA === row
+                            "></tr>
+                                                    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                                                    <tr class="mat-row" *matNoDataRow>
+                                                        <td class="mat-cell" colspan="4">
+                                                            {{ "no_records" | translate }}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </cdk-accordion-item>
+                            </cdk-accordion>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 
+        <div
+          class="traceability-resume dependencies-container mb-4 percentage period-1"
+        >
+          <div class="dependencies-title">
+            {{ "summary_traceability" | translate }} -
+            {{ "semester" | translate }} 1
+          </div>
+          <div>
+            <table
+              mat-table
+              multiTemplateDataRows
+              [dataSource]="dataSourceRT1"
+              class="table-list-business mb-2"
+            >
+              <ng-container matColumnDef="c1">
+                <th mat-header-cell *matHeaderCellDef width="25%">
+                  {{ "" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element" [ngClass]="">
+                  <span class="d-block truncate-business">
+                    % {{ element[0] | translate }}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="c2">
+                <th mat-header-cell *matHeaderCellDef width="25%">
+                  {{ "" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element" [ngClass]="">
+                  <span class="d-block truncate-business">
+                    {{ element[1] }}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="c3">
+                <th mat-header-cell *matHeaderCellDef width="25%">
+                  {{ "" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element" [ngClass]="">
+                  <span class="d-block truncate-business">
+                    {{ element[2] }}
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="c4">
+                <th mat-header-cell *matHeaderCellDef width="25%">
+                  {{ "" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element" [ngClass]="">
+                  <span class="d-block truncate-business">
+                    {{ element[3] }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumnsRT1; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumnsRT1"
+                class="example-element-row"
+                [class.example-expanded-row]="displayedColumnsRT1 === row"
+              ></tr>
+            </table>
+          </div>
+        </div> -->
+
+                <hr class="separator-d-container" />
+                <div class="period-2">
+                    <div class="traceability-resume dependencies-container mb-4 percentage period-2">
+                        <div class="dependencies-title title-xl">
+                            {{ "summary_traceability" | translate }} - {{ "semester" | translate }} 2
+                        </div>
+                        <div>
+                            <div class="row row-data">
+                                <div *ngFor="let item of traceability_percentageP2" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="traceability-resume dependencies-container mb-4">
+                                        <div class="dependencies-title title-xl">
+                                            {{ item[0] | translate }}
+                                        </div>
+                                        <div class="text-center">
+                                            {{ item[3] }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <cdk-accordion class="resumen-accordion">
+                                    <cdk-accordion-item #accordionItem2="cdkAccordionItem" class="resumen-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem2.expanded" [attr.aria-controls]="'accordion-body'">
+                                        <div class="resumen-accordion-item-header" (click)="accordionItem2.toggle()">
+                                            <div class="noselectable">{{ "alerts" | translate }}</div>
+                                            <span class="resumen-accordion-item-description noselectable">
+                        <img
+                          *ngIf="!accordionItem2.expanded"
+                          width="20px"
+                          src="assets/images/more-circle.png"
+                        />
+                        <img
+                          *ngIf="accordionItem2.expanded"
+                          width="20px"
+                          src="assets/images/minus-circle.png"
+                        />
+                      </span>
+                                        </div>
+                                        <div class="resumen-accordion-item-body animate__animated animate__fadeIn" role="region" [style.display]="accordionItem2.expanded ? '' : 'none'" [attr.id]="'accordion-body'" [attr.aria-labelledby]="'accordion-header'">
+                                            <div class="traceability-resume dependencies-container mb-4">
+                                                <div class="dependencies-title">
+                                                    {{ "alert_table" | translate }}
+                                                </div>
+                                                <div>
+                                                    <table mat-table multiTemplateDataRows [dataSource]="dataSourceTA2" class="table-list-business mb-2">
+                                                        <ng-container matColumnDef="actor_type">
+                                                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                                                {{ "actor_types" | translate }}
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                                <span class="d-block truncate-business">
+                                  {{ element[0] | translate }}
+                                </span>
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="traceability_registered">
+                                                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                                                {{ "traceability_registered" | translate }}
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                                <span class="d-block truncate-business">
+                                  {{ element[1] }}
+                                </span>
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="registered_supply_base">
+                                                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                                                {{ "registered_supply_base" | translate }}
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                                <span class="d-block truncate-business">
+                                  {{ element[2] }}
+                                </span>
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="alerts">
+                                                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                                                {{ "alerts" | translate }}
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                                <span class="d-block truncate-business alert-{{element[3].toLowerCase()}}">
+                                                                  {{ element[3] }}
+                                                                </span>
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="more">
+                                                            <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                                                                {{ "more" | translate }}
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let element" class="text-center">
+                                                                <button class="btn border-none" style="margin-top: 5px" (click)="expand2(element)">
+                                                                    <i class="pi pi-chevron-down"></i>
+                                                                </button>
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="expandedDetail2">
+                                                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsTA2.length">
+                                                                <div class="example-element-detail" [@detailExpand]="element == expandedElement2 ? 'expanded' : 'collapsed'">
+                                                                    <div class="py-3 w-75 d-block mx-auto more-business">
+                                                                        <div class="row">
+
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                                <div class="field">
+                                                                                    <label class="d-block">{{ "traceability_registered" | translate }}</label>
+                                                                                    <input type="text" class="w-100" pInputText readonly value="{{ element[1] }}" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                                <div class="field">
+                                                                                    <label class="d-block">{{ "registered_supply_base" | translate }}</label>
+                                                                                    <input type="text" class="w-100" pInputText readonly value="{{ element[2] }}" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                                <div class="field">
+                                                                                    <label class="d-block">{{ "alerts" | translate }}</label>
+                                                                                    <span class="d-block truncate-business alert-{{ element[3].toLowerCase() }}">
+                                                                                                    {{ element[3] }}
+                                                                                                </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsTA2;sticky: true"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsTA2" class="example-element-row" [class.example-expanded-row]="displayedColumnsTA2 === row"></tr>
+                                                        <tr mat-row *matRowDef="let element; columns: ['expandedDetail2']" class="example-detail-row"></tr>
+                                                        <tr class="mat-row" *matNoDataRow>
+                                                            <td class="mat-cell" colspan="4">
+                                                                {{ "no_records" | translate }}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </cdk-accordion-item>
+                                </cdk-accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="separator-d-container" />
+                <div class="period-0">
+                    <div class="traceability-resume dependencies-container mb-4 percentage period-0">
+                        <div class="dependencies-title title-xl">
+                            {{ "summary_traceability" | translate }} - {{ "annual" | translate }}
+                        </div>
+                        <div class="row row-data">
+                            <div *ngFor="let item of traceability_percentageP" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="traceability-resume dependencies-container mb-4">
+                                    <div class="dependencies-title title-xl">
+                                        {{ item[0] | translate }}
+                                    </div>
+                                    <div class="text-center">
+                                        {{ item[3] }}
+                                    </div>
+                                </div>
+                            </div>
+                            <cdk-accordion class="resumen-accordion">
+                                <cdk-accordion-item #accordionItem3="cdkAccordionItem" class="resumen-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem3.expanded" [attr.aria-controls]="'accordion-body'">
+                                    <div class="resumen-accordion-item-header" (click)="accordionItem3.toggle()">
+                                        <div class="noselectable">{{ "alerts" | translate }}</div>
+                                        <span class="resumen-accordion-item-description noselectable">
+                      <img
+                        class="noselectable"
+                        *ngIf="!accordionItem3.expanded"
+                        width="20px"
+                        src="assets/images/more-circle.png"
+                      />
+                      <img
+                        class="noselectable"
+                        *ngIf="accordionItem3.expanded"
+                        width="20px"
+                        src="assets/images/minus-circle.png"
+                      />
+                    </span>
+                                    </div>
+                                    <div class="resumen-accordion-item-body animate__animated animate__fadeIn" role="region" [style.display]="accordionItem3.expanded ? '' : 'none'" [attr.id]="'accordion-body'" [attr.aria-labelledby]="'accordion-header'">
+                                        <div class="traceability-resume dependencies-container mb-4">
+                                            <div class="dependencies-title">
+                                                {{ "alert_table" | translate }}
+                                            </div>
+                                            <div>
+                                                <table mat-table multiTemplateDataRows [dataSource]="dataSourceTA" class="table-list-business mb-2">
+                                                    <ng-container matColumnDef="actor_type">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "actor_types" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[0] | translate }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="traceability_registered">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "traceability_registered" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[1] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="registered_supply_base">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "registered_supply_base" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business">
+                                {{ element[2] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="alerts">
+                                                        <th mat-header-cell *matHeaderCellDef width="25%">
+                                                            {{ "alerts" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                            <span class="d-block truncate-business alert-{{
+                                  element[3].toLowerCase()
+                                }}">
+                                {{ element[3] }}
+                              </span>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="more">
+                                                        <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                                                            {{ "more" | translate }}
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <button class="btn border-none" style="margin-top: 5px" (click)="expand3(element)">
+                                                                    <i class="pi pi-chevron-down"></i>
+                                                                </button>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="expandedDetail3">
+                                                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsTA2.length">
+                                                            <div class="example-element-detail" [@detailExpand]="element == expandedElement3 ? 'expanded' : 'collapsed'">
+                                                                <div class="py-3 w-75 d-block mx-auto more-business">
+                                                                    <div class="row">
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "traceability_registered" | translate }}</label>
+                                                                                <input type="text" class="w-100" pInputText readonly value="{{ element[1] }}" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "registered_supply_base" | translate }}</label>
+                                                                                <input type="text" class="w-100" pInputText readonly value="{{ element[2] }}" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <div class="field">
+                                                                                <label class="d-block">{{ "alerts" | translate }}</label>
+                                                                                <span class="d-block truncate-business alert-{{ element[3].toLowerCase() }}">
+                                                                                                    {{ element[3] }}
+                                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </ng-container>
+
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTA2; sticky: true"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTA2" class="example-element-row" [class.example-expanded-row]="
+                              displayedColumnsTA2 === row
+                            "></tr>
+                                                    <tr mat-row *matRowDef="let element; columns: ['expandedDetail3']" class="example-detail-row"></tr>
+                                                    <tr class="mat-row" *matNoDataRow>
+                                                        <td class="mat-cell" colspan="4">
+                                                            {{ "no_records" | translate }}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </cdk-accordion-item>
+                            </cdk-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

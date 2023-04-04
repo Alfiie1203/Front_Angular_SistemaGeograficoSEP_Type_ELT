@@ -1,0 +1,181 @@
+<form autocomplete="off" [formGroup]="form" (ngSubmit)="register()">
+    <div class="page-header animate__animated animate__fadeIn">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <button class="btn btn-pf-primary me-2" type="button" routerLink="/forms/validated-forms/list-forms-company" [queryParams]="{idForm: idPrev}" style="margin-bottom: 0.5rem;">
+                            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="">
+                        </button>
+                        <div class="position-relative" *ngIf="dataForm">
+                            <h2 id="title" class="m-b-10" [innerHtml]="dataForm.name | translate | changeTitle"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-4 animate__animated animate__fadeIn">
+                <div class="col-sm-12">
+                    <div class="row position-relative">
+                        <div class="col-12col-xs-12">
+                            <div class="row">
+                                <div *ngFor="let group of questions; let i = index" class="col-12 mb-4">
+                                    <div class="folder">
+                                        <span class="text-white font-12 item-folder">
+                                            {{'group' | translate: {position: (i+1)} }} {{'of' | translate}} {{questions.length}}
+                                        </span>
+                                        <div class="">
+                                            <div class="position-absolute div-group">
+                                                <input id="name_group_{{i+1}}" class="input-edit-code form-control input-group me-1" [value]="name_group[i+1]" readonly type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-3 pt-3 list_question_group">
+                                        <div *ngFor="let item of group[(i+1)]; let j = index">
+                                            <div class="row" [ngClass]="{'line-separate': !item.file_exclude && j!=0}">
+                                                <div class="" [ngClass]="dataForm&&dataForm.revision_status != 'VERIFIED' && dataForm&&dataForm.revision_status != 'VALIDATE'?'col-lg-8 col-md-8 col-sm-7 col-xs-12':'col-12'">
+                                                    <!-- <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12"> -->
+                                                    <div class="card mx-auto card-question my-3 table-responsive">
+                                                        <div class="card-body" [innerHtml]="item.html"></div>
+                                                    </div>
+                                                </div>
+                                                <!-- </div> element.revision_status != 'VALIDATE' -->
+                                                <div *ngIf="dataForm&&dataForm.revision_status != 'VERIFIED'&&dataForm&&dataForm.revision_status != 'VALIDATE'" class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                                                    <!-- <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12"> -->
+                                                    <div class="row" *ngIf="!item.file_exclude">
+                                                        <div class="col-12">
+                                                            <div class="row p-0 d-flex align-items-center">
+                                                                <div class="col-7">
+                                                                    <div class="card card-question" style="border-radius: 10px;">
+                                                                        <div class="card-body">
+                                                                            <p-dropdown id="validate{{item.id}}" formControlName="validate{{item.id}}" [options]="listValidate" optionLabel="name" [filter]="false" filterBy="name" [placeholder]="'validate' | translate" [autoDisplayFirst]="false">
+                                                                                <ng-template pTemplate="selectedItem">
+                                                                                    <div class="country-item country-item-value" *ngIf="form.get('validate'+item.id)">
+                                                                                        <div>{{form.get('validate'+item.id)?.value.name | translate}}</div>
+                                                                                    </div>
+                                                                                </ng-template>
+                                                                                <ng-template let-country pTemplate="item">
+                                                                                    <div class="country-item">
+                                                                                        <div>{{country.name | translate}}</div>
+                                                                                    </div>
+                                                                                </ng-template>
+                                                                            </p-dropdown>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <button class="btn btn-pf-primary" type="button" (click)="moreObservation(item)"> {{'observations' | translate}} </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="card mx-auto card-question mb-3" style="border-radius: 10px;">
+                                                                <div class="card-body">
+                                                                    <textarea id="description{{item.id}}" formControlName="description{{item.id}}" class="w-100 p-inputtext p-1" rows="3"></textarea>
+                                                                    <button id="btnSend{{item.id}}" class="btn btn-pf-primary export-btn ms-auto align-items-center d-flex" type="button" (click)="sendCommit(item.id)"> <img src="assets/images/send.png"  class="me-1" alt="">{{'send' | translate}}</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row mt-2"> -->
+                            <div class="row mt-2" *ngIf="dataForm&&dataForm.revision_status != 'VALIDATE'&&dataForm&&dataForm.revision_status != 'VERIFIED'">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <!-- <div class="form-check w-100">
+                                        <input formControlName="accept_data" class="form-check-input" type="checkbox" value="" id="accept_data">
+                                        <label class="form-check-label font-13" for="accept_data">
+                                                {{'yes_accept' | translate}} <a href="javascript: void(0);">{{'accep_data' | translate}}</a>
+                                            </label>
+                                    </div> -->
+                                    <!-- <div *ngIf="f['accept_data'].invalid && f['accept_data'].touched && f['accept_data'].errors!=null" class="text-danger ps-2 font-12">
+                                        <small id="phone-help" *ngIf="f['accept_data'].errors['required']" class="block">{{'accept_politics2' | translate}}</small>
+                                    </div> -->
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-end">
+                                    <ng-container *ngIf="!loading; else load">
+                                        <button class="btn btn-pf-primary p-btn  cursor-pointer me-2" (click)="saveV()" type="button"> {{'save' | translate}} </button>
+                                        <!-- <button class="btn btn-pf-primary p-btn " type="submit"> {{'finalize' | translate}} </button> -->
+                                    </ng-container>
+                                    <ng-template #load>
+                                        <span class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<p-dialog [(visible)]="displayObservation" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row pb-5 mb-5" *ngIf="dataQuestion">
+        <div class="col-12">
+            <h5 class="text-center"><b> {{dataQuestion.label}} </b></h5>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="line-question mb-2"><b>{{'observations' | translate}}</b></div>
+            </div>
+        </div>
+        <ng-container *ngIf="listObservation && listObservation.length>0; else noObservation">
+            <div class="row py-0 my-0" *ngFor="let observation of listObservation">
+                <div class="col-12 py-0 my-0">
+                    <div class="card mx-auto card-question mb-1" style="border-radius: 10px;">
+                        <div class="card-body font-12">
+                            <div class="row ">
+                                <div class="col-12">
+                                    <b>{{'reviewed_by' | translate}}: </b> {{observation.reviewed_by.full_name}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <b>{{'observation' | translate}}: </b> <br> {{observation.reviewer_observations}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noObservation>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mx-auto card-question" style="border-radius: 10px;">
+                        <div class="card-body">
+                            {{'no_records' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <div class="col-12 text-center pt-4 footer-btn-obs">
+            <button class="btn btn-pf-primary p-btn" (click)="listObservation=[];dataQuestion=undefined;displayObservation=false;"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog [(visible)]="displayRegister" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'register_success' | translate}} </b></h3>
+            <p>{{'description_register_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="displayRegister=false; location.back();"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+</p-dialog>

@@ -1,0 +1,168 @@
+.validated {
+    border-left: 10px solid rgb(0, 167, 176);
+}
+
+.selfreported {
+    border-left: 10px solid #ff5e61;
+}
+
+.notvalidated {
+    border-left: 10px solid #4b5897;
+}
+
+.mat-cell.td-action {
+    width: 100px;
+}
+
+.validators-content {
+    .p-input-icon-left {
+        display: inline !important;
+    }
+    .card-body {
+        margin-bottom: 10px;
+        .spinner-grow {
+            position: absolute;
+            z-index: 999;
+            left: 30px;
+            margin-top: 2px;
+        }
+    }
+    display: block;
+    width: 100%;
+    .validators-list {
+        margin: 5px;
+        border-bottom: 1px solid #dedede;
+        padding-bottom: 7px;
+        .validators-box {
+            width: 100%;
+            display: flex;
+            .validators-name {
+                width: 50%;
+                float: left;
+                text-align: left;
+                margin: auto;
+            }
+            .validators-action {
+                width: 50%;
+                float: right;
+                text-align: right;
+                margin: auto;
+            }
+        }
+    }
+    .p-input-icon-left,
+    .p-input-icon-right {
+        position: relative;
+        display: block;
+    }
+}
+
+.btn-cancel {
+    font-size: 14px;
+    background: #EAEAEA;
+    border: 1px solid #5A5A5A;
+    box-shadow: 0px 4px 19px rgba(119, 147, 65, 0.3);
+}
+
+.btn-cancel:hover {
+    border: 1px solid #5A5A5A;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: #00a7b0 !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #00a7b0 !important;
+    /*inner circle color change*/
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #00a7b0 !important;
+    /*outer ring color change*/
+}
+
+.dateV {
+    font-size: 12px;
+    color: gray;
+}
+
+.export-btn {
+    padding: 4px 24px;
+    border-radius: 100px;
+    font-size: 12px;
+}
+
+::ng-deep p-calendar.c-validator .p-datepicker table th {
+    padding: 1px;
+    width: 10px;
+}
+
+::ng-deep p-calendar.c-validator .p-datepicker table td {
+    padding: 1px;
+    width: 10px;
+}
+
+::ng-deep p-calendar.c-validator .p-calendar .p-datepicker {
+    min-width: 100%;
+    position: absolute;
+    top: 0px !important;
+    transform: translate(0px, -100%);
+}
+
+::ng-deep p-calendar.c-validator .p-datepicker table td>span {
+    width: 2.5rem;
+    height: 1.5rem;
+    font-size: 13px;
+}
+
+::ng-deep p-calendar.c-validator .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
+    height: 39px;
+}
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    // display: flex;
+    width: 100%;
+}
+
+@media only screen and (max-width: 576px) {
+    .mat-column-more {
+        display: table-cell;
+        padding-right: 0 !important;
+    }
+    // .mat-column-reported_company {
+    //     display: none;
+    // }
+    .mat-column-supplier_company {
+        display: none;
+    }
+    .mat-column-estado {
+        display: none;
+    }
+    .mat-column-year {
+        display: none;
+    }
+    .mat-column-period {
+        display: none;
+    }
+    .mat-column-actions {
+        padding-right: 0 !important;
+    }
+}

@@ -1,0 +1,125 @@
+.text-search {
+  top: 55px !important;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ced4da;
+  z-index: 99;
+  width: 40%;
+}
+.hidden {
+  display: none;
+}
+.data-list {
+  /*  background: rgb(32, 32, 32);
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 5px;
+    width: fit-content;
+    opacity: 0.8;
+    max-height: 250px;
+    overflow-y: scroll; */
+
+  opacity: 0.8;
+  border-radius: 5px;
+  position: absolute;
+  margin-top: 10px;
+  background: rgb(32, 32, 32);
+  width: fit-content;
+  padding: 10px;
+  text-transform: uppercase;
+
+  letter-spacing: 3px;
+  color: #044b85;
+  z-index: 1000;
+  font-weight: bold;
+  .datalist-container {
+    max-height: 250px;
+    overflow-y: scroll;
+    option {
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  }
+}
+.data-list::before {
+  content: " ";
+  position: absolute;
+  top: -18px;
+  transform: rotate(180deg);
+  //transform: translateX(-50%);
+  border-top: 10px solid rgb(32, 32, 32);
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+
+// input[type=file]::file-selector-button {
+//     margin-right: 20px;
+//     border: none;
+//     background: #084cdf;
+//     position: absolute;
+//     // padding: 10px 20px;
+//     border-radius: 10px;
+//     color: #fff;
+//     right: 0;
+//     cursor: pointer;
+//     transition: background .2s ease-in-out;
+// }
+// input[type=file]::file-selector-button:hover {
+//     background: #0d45a5;
+// }
+@media only screen and (max-width: 576px) {
+  .text-search {
+    width: 90%;
+  }
+  .input-box-content {
+    display: block;
+  }
+}
+.input-box-content .input-box:hover {
+  border-color: var(--pf-blue) !important;
+}
+.input-box-content .input-box:focus-within {
+  box-shadow: 0 0 0 0.1rem var(--pf-blue) !important;
+  border: 1px solid var(--pf-blue);
+}
+.input-box-content {
+  margin-bottom: 1rem;
+  label {
+    font-size: 14px;
+    margin-bottom: 0.3rem !important;
+  }
+  .input-box {
+    content: "";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    font-size: 1rem;
+    color: #495057;
+    background: #ffffff;
+    border: 1px solid #ced4da;
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 9px;
+    height: 37px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+    input[type="checkbox"] {
+      margin: auto 17px;
+    }
+  }
+  .input-box.center {
+    input[type="checkbox"] {
+      margin: auto;
+    }
+  }
+}
+.card-body.form {
+}

@@ -1,0 +1,245 @@
+.p-inputtext {
+    width: 100%;
+    border-radius: 9px !important;
+    font-size: 12px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.p-dropdown,
+.p-multiselect {
+    width: 100%;
+    border-radius: 9px !important;
+    font-size: 12px !important;
+}
+
+.p-language {
+    background: transparent !important;
+    border: none !important;
+    .p-dropdown-label {
+        padding: 0;
+        margin: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+        padding: 0 !important;
+        margin: 0 !important;
+        text-align: center;
+        height: 30px;
+        img {
+            vertical-align: top !important;
+        }
+    }
+}
+
+.phone-dropdown {
+    width: auto !important;
+    .p-dropdown-label {
+        padding: 0.625rem 0 !important;
+        padding-left: 20px !important;
+    }
+    // .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    //     color: #ffffff;
+    //     background: var(--pf-blue);
+    // }
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: #ffffff !important;
+    background: var(--pf-blue) !important;
+    .question-item img {
+        filter: brightness(0) invert(1);
+    }
+}
+
+.p-inputtext:enabled:hover,
+.p-dropdown:not(.p-disabled):hover,
+.p-multiselect:not(.p-disabled):hover {
+    border-color: var(--pf-blue) !important;
+}
+
+.p-inputtext:enabled:focus,
+.p-multiselect:not(.p-disabled).p-focus,
+.p-dropdown:not(.p-disabled).p-focus {
+    border-color: var(--pf-blue) !important;
+    box-shadow: 0 0 0 0.1rem var(--pf-blue) !important;
+}
+
+.p-pf-paswword {
+    position: relative;
+    width: 100%;
+    i {
+        position: absolute;
+        top: 50%;
+        margin-top: -0.5rem;
+        right: 0.75rem;
+        color: #495057;
+    }
+}
+
+.p-multiselect-panel .p-multiselect-header,
+.p-dropdown-panel .p-dropdown-header {
+    background: #fff !important;
+    .p-checkbox .p-checkbox-box.p-highlight {
+        border-color: var(--pf-blue);
+    }
+}
+
+.dialog-delete {
+    border-radius: 26px;
+    border: none !important;
+    .p-dialog-header {
+        display: none;
+    }
+    .p-dialog-content {
+        border-bottom-right-radius: 26px !important;
+        border-bottom-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-top-left-radius: 26px !important;
+        padding: 2rem !important;
+    }
+}
+
+.filter-business .p-accordion-header .p-accordion-header-link {
+    padding: 0.5rem 0rem !important;
+    background: transparent !important;
+    border: none !important;
+    text-decoration: none !important;
+}
+
+.filter-business .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+    box-shadow: none !important;
+}
+
+.filter-business .p-accordion-content {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 1.25rem !important;
+}
+
+.filter-business .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+    color: #fff;
+    background: #919090;
+    ;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.p-toast .p-toast-message .p-toast-icon-close:focus {
+    box-shadow: none !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content {
+    align-items: center;
+}
+
+.p-dropdown-option {
+    background: transparent !important;
+    border: none !important;
+}
+
+.p-dropdown-option:not(.p-disabled):hover {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.p-dropdown-option:not(.p-disabled).p-focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.btn-type-question {
+    width: max-content;
+    .p-button {
+        background: #fff !important;
+        border: none !important;
+        color: var(--pf-blue) !important;
+        font-weight: 500;
+        transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+        border-radius: 10px !important;
+        height: 30px !important;
+        font-size: 14px !important;
+    }
+    .p-button:focus,
+    .p-button:hover {
+        box-shadow: none !important;
+        border-color: var(--pf-blue) !important;
+    }
+    .p-button.p-highlight:hover {
+        border-color: var(--pf-blue) !important;
+    }
+    .p-button.p-highlight {
+        background: var(--pf-blue) !important;
+        border-color: var(--pf-blue) !important;
+        color: #ffffff !important;
+    }
+    .p-button.p-highlight:focus,
+    .p-button.p-highlight:hover {
+        box-shadow: none !important;
+    }
+}
+
+.p-calendar {
+    width: 100%;
+}
+
+.p-calendar .p-datepicker {
+    font-size: 12px;
+    color: var(--pf-blue);
+}
+
+.p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
+    background-color: #fff !important;
+    color: var(--pf-blue);
+    font-weight: bold;
+}
+
+.p-datepicker .p-yearpicker .p-yearpicker-year.p-highlight {
+    color: var(--pf-blue) !important;
+    font-weight: bold;
+    background: rgba(0, 167, 176, 0.09) !important;
+}
+
+.p-datepicker .p-datepicker-header {
+    border-bottom: none !important;
+}
+
+.p-datepicker:not(.p-disabled) .p-yearpicker .p-yearpicker-year:not(.p-disabled):not(.p-highlight):hover {
+    background: rgba(0, 167, 176, 0.09) !important;
+}
+
+.p-datepicker:not(.p-disabled) .p-yearpicker .p-yearpicker-year:not(.p-disabled):focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: none !important;
+}
+
+.p-overlaypanel .p-overlaypanel-close {
+    background: var(--pf-blue) !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    top: -0.5rem !important;
+    right: -0.5rem !important;
+    .pi {
+        font-size: 12px !important;
+    }
+}
+
+.p-overlaypanel .p-overlaypanel-close:enabled:hover {
+    background: var(--pf-blue) !important;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+    // border-color: var(--pf-blue) !important;
+    background: var(--pf-blue) !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+    // color: #ffffff;
+    background: var(--pf-blue) !important;
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item:focus {
+    box-shadow: none !important;
+}

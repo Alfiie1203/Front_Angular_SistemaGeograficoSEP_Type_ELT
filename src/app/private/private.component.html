@@ -1,0 +1,33 @@
+<app-navigation class="pcoded-navbar" [ngClass]="{'navbar-collapsed' : navCollapsed, 'theme-horizontal': this.dattaConfig['layout'] === 'horizontal', 'mob-open' : navCollapsedMob}" (onNavCollapse)="this.navCollapsed = !this.navCollapsed;" (onNavCollapsedMob)="navMobClick()"></app-navigation>
+<app-nav-bar class="navbar pcoded-header navbar-expand-lg navbar-light" (onNavCollapsedMob)="navMobClick()"></app-nav-bar>
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content position-relative">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper" #pcoded_wrapper>
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-load></app-load>
+    </div>
+</div>
+
+<p-dialog [(visible)]="display" appendTo="pcoded_wrapper" [modal]="true" [breakpoints]="{'960px': '95vw'}" [style]="{width: '45vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'sesion_will_expire' | translate}} </b></h3>
+            <p>{{'sesion_closed' | translate}}</p>
+            <h4 class="text-center">{{time_expire - seconds}}</h4>
+        </div>
+        <!-- <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div> -->
+        <!-- <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="listBusiness()"> {{'accept' | translate}} </button>
+        </div> -->
+    </div>
+
+</p-dialog>

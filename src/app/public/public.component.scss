@@ -1,0 +1,105 @@
+.body-public{
+    // background-image: url('../../assets/images/video-bg.webm');
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-size: cover;
+    height: 100vh;
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    // width: 100vw;
+    // height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+  
+
+.login{
+    background-color: #ffffff;
+    // height: 50vh
+    opacity: 1;
+    // overflow: hidden;
+    // overflow-x: hidden;
+    position: relative;
+    // width: max-content;
+    border-radius: 42px;
+    margin-top: 50px;
+}
+
+.logo {
+    z-index: 1;
+    background-color: #fff;
+    display: block;
+    // padding: 5px 20px;
+    text-align: center;
+    margin: auto;
+    margin-top: -40px;
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    width: 270px;
+}
+
+
+.btn-bg{
+    margin: auto;
+    background-color: var(--pf-blue);
+    width: max-content;
+    padding: 8px;
+    border-radius: 33px;
+    .btn-option{
+        color: #fff;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        background-color: transparent;
+        border-radius: 33px;
+        height: 30px;
+        padding: 0 15px;
+    }
+
+    .btn-option-selected{
+        color: var(--pf-blue);
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        // height: auto;
+        line-height: normal;
+        // width: auto;
+        background-color: #ffffff;
+        border-radius: 33px;
+        height: 30px;
+        padding: 0 15px;
+    }
+}
+@media only screen and (max-width: 1300px) {
+    .login{
+        width: 40vw !important;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .login{
+        width: 60vw !important;
+    }
+}
+@media only screen and (max-width: 740px) {
+    .login{
+        width: 70vw !important;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .login{
+        width: 90% !important;
+        margin-bottom: 50px;
+        margin-top: 70px;
+    }
+
+    .h-movil-register{
+        height: 100% !important;
+    }
+    
+}
+

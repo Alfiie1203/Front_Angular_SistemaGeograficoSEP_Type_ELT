@@ -1,0 +1,145 @@
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    // display: flex;
+    width: 100%;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.example-element-description {
+    padding: 16px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+.business-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--pf-blue);
+}
+
+.highlight {
+    background-color: rgba(0, 167, 176, 0.09) !important;
+}
+
+// .example-container {
+//     height: calc(100vh - 290px);
+//     overflow-y: auto;
+//     overflow-x: hidden;
+// }
+.icon-option {
+    width: 15px;
+    margin-right: 5px;
+}
+
+.btn-cancel {
+    background: #EAEAEA;
+    border: 1px solid #5A5A5A;
+    box-shadow: 0px 4px 19px rgba(119, 147, 65, 0.3);
+}
+
+.btn-cancel:hover {
+    border: 1px solid #5A5A5A;
+}
+
+.card-body {
+    border-bottom: 2px solid var(--pf-blue);
+}
+
+@media only screen and (max-width: 576px) {
+    .example-container {
+        height: calc(100vh - 190px);
+    }
+    .more-business {
+        width: 100% !important;
+    }
+    .view-more {
+        display: none;
+    }
+}
+
+// .filter-list {
+//     padding-left: 1.6rem !important;
+//     list-style-type: none;
+//     font-size: 14px;
+//     margin-bottom: 0 !important;
+// }
+.business-img-expand {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid var(--pf-blue);
+}
+
+.export-btn {
+    padding: 4px 24px;
+    border-radius: 100px;
+    font-size: 12px;
+}
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    // display: flex;
+    width: 100%;
+}
+
+@media only screen and (max-width: 576px) {
+    .mat-column-more {
+        display: table-cell;
+        padding-right: 0 !important;
+    }
+    .mat-column-date {
+        display: none;
+    }
+    .mat-column-actions {
+        padding-right: 0 !important;
+    }
+}

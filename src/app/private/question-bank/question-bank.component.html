@@ -1,0 +1,222 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="'question_bank' | translate | changeTitle"></h2>
+                    <button *ngIf="permissionAdd" class="btn btn-pf-primary more-btn ml-auto" routerLink="/question-bank/create-edit-question-bank">
+                    <img src="assets/images/more.png" width="20px" class="btn-img cursor-pointer" alt="">
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="border-title">
+                            {{'list_question_bank' | translate}}
+                        </h3>
+                    </div>
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-body card-body-list">
+                                <span class="w-search-list">
+                                    <div class="row d-flex align-items-center">
+                                        <!-- <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                            <span class="p-input-icon-left w-100">
+                                                <i class="pi pi-search" style="color: var(--pf-blue);"></i>
+                                                <input type="text" [(ngModel)]="textSearch" (keyup)="applyFilter($event)" class="w-100" style="padding-left: 2.5rem !important; border-radius: 26px !important;" pInputText [placeholder]="'search' | translate" />
+                                            </span>
+                            </div> -->
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                                <div>
+                                    <!-- <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'category' | translate}}</label>
+                                    </div> -->
+                                    <p-dropdown id="listCategories" [(ngModel)]="category" [options]="listCategories" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'category' | translate" [autoDisplayFirst]="false" (onChange)="getListSubcategories()">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="country-item country-item-value" *ngIf="category">
+                                                <div>{{category.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-category pTemplate="item">
+                                            <div class="country-item">
+                                                <div>{{category.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                                <div>
+                                    <!-- <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'subcategory' | translate}}</label>
+                                    </div> -->
+                                    <p-dropdown id="listSubcategories" [(ngModel)]="subcategory" [options]="listSubcategories" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'subcategory' | translate" [autoDisplayFirst]="false" (onChange)="getListTopics()">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="country-item country-item-value" *ngIf="subcategory">
+                                                <div>{{subcategory.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-category pTemplate="item">
+                                            <div class="country-item">
+                                                <div>{{category.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                                <div>
+                                    <!-- <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'topic' | translate}}</label>
+                                    </div> -->
+                                    <p-dropdown id="listTopics" [(ngModel)]="topic" [options]="listTopics" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'topic' | translate" [autoDisplayFirst]="false" (onChange)="getList_Topic()">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="country-item country-item-value" *ngIf="topic">
+                                                <div>{{topic.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-category pTemplate="item">
+                                            <div class="country-item">
+                                                <div>{{category.name[lang.code]}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 chang-clear col-sm-1 col-xs-12">
+                                <button class="btn btn-pf-primary w-100" (click)="clear()" type="button"> <img width="15px" class="btn-img" src="assets/images/times.png" alt=""> </button>
+                            </div>
+                        </div>
+                        </span>
+                    </div>
+                    <div class="example-container position-relative">
+                        <app-load-table></app-load-table>
+
+                        <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="table-list-business">
+
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef width="10%" class="text-center">
+                                </th>
+                                <td mat-cell *matCellDef="let row" class="text-center" (click)="checked(row)">
+                                    <mat-checkbox (click)="$event.stopPropagation()" (change)="checked(row)" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="questions">
+                                <!-- mat-sort-header -->
+                                <th mat-header-cell *matHeaderCellDef class="text-left" width="80%"> {{'questions' | translate}} </th>
+                                <td mat-cell *matCellDef="let element" class="cursor-pointer" (click)="checked(element)">
+                                    <span class="d-block">
+                                                    {{element.question_data.label[lang.code]?element.question_data.label[lang.code]:'translation_available' | translate}} 
+                                                </span>
+                                    <span class="d-block font-12 text-pf-secondary">
+                                                    {{element.question_data.type | translate}} ({{element.question_data.appearance | translate}})
+                                                </span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="state">
+                                <th mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{'state' | translate}} </th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    <div class="form-check form-switch">
+                                        <span class="d-block" [ngClass]="element.status?'text-success':'text-danger'">
+                                            <ng-container *ngIf="element.status; else noActive">
+                                                {{'active' | translate}}
+                                            </ng-container>
+                                            <ng-template #noActive>
+                                                {{'inactive' | translate}}
+                                            </ng-template>
+                                            
+                                        </span>
+                                        <!-- <input class="form-check-input" [(ngModel)]="element.status" disabled="true" onclick="return false" type="checkbox" role="switch" id="flexSwitchCheckDefault"> -->
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <th [ngClass]="{'d-none': !permissionChange}" mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{'action' | translate}} </th>
+                                <td [ngClass]="{'d-none': !permissionChange}" mat-cell *matCellDef="let element" class="text-center">
+                                    <button class="btn border-none" style="margin-top: 5px;" [matMenuTriggerFor]="menu">
+                                <i class="pi pi-ellipsis-v"></i>
+                            </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button *ngIf="permissionChange" routerLink="/question-bank/create-edit-question-bank" [queryParams]="{idData: element.id}" mat-menu-item>
+                                    <img src="assets/images/edit.png" class="icon-option" alt="">
+                                    <span>{{'edit' | translate}}</span>
+                                </button>
+                                        <button *ngIf="permissionDelete" (click)="disableEnable(element)" mat-menu-item>
+                                    <img [src]="element.status?'assets/images/unique_option_circle.png':'assets/images/unique_option.png'" class="icon-option" alt="">
+                                    <span *ngIf="element.status">{{'disable' | translate}}</span>
+                                    <span *ngIf="!element.status">{{'enable' | translate}}</span>
+                                </button>
+                                    </mat-menu>
+                                    <!-- <a href="javascript: void();"  >
+                                <img src="assets/images/editBlue.png" class="icon-option cursor-pointer" alt="">
+                            </a> -->
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" [ngClass]="{'highlight': selectedRowIndex ==row.id}"></tr>
+
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" *ngIf="textSearch!=''; else noData" colspan="4">{{'no_found' | translate}} "{{textSearch}}"</td>
+                                <ng-template #noData>
+                                    <td class="mat-cell" colspan="7">{{'no_records' | translate}}</td>
+                                </ng-template>
+
+                            </tr>
+                        </table>
+                        <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="[5,10,25,50]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="data && data.question_data.label[lang.code]">
+            <div class="col-12">
+                <h3 class="border-title">
+                    {{'preview' | translate}}
+                </h3>
+            </div>
+            <div class="col-12">
+                <div class="card mx-auto card-question">
+                    <div class="card-body" id="preview" #preview>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="data && !data.question_data.label[lang.code]">
+            <div class="col-12">
+                <h3 class="border-title">
+                    {{'preview' | translate}}
+                </h3>
+            </div>
+            <div class="col-12">
+                <div class="card mx-auto card-question">
+                    <div class="card-body visually-hidden" id="preview" #preview>
+                    </div>
+                    <div class="des-question-bank w-75 py-5 my-5 mx-auto">
+                        <h4>
+                            {{'translation_available' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>

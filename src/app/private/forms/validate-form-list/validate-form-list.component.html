@@ -1,0 +1,550 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="title_name | translate | changeTitle"></h2>
+                    <!-- <button *ngIf="role && role.name=='COLABORADOR' && permissionAdd" class="btn btn-pf-primary more-btn ml-auto" routerLink="/forms/list-forms/register-forms">
+                        <img src="assets/images/more.png" width="20px" class="btn-img cursor-pointer" alt="">
+                    </button> 
+                                          <div class="row">
+                      <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                      </div>
+                      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 d-flex align-items-center  mt-2">
+                        <button class="btn btn-pf-primary w-100  chang-clear" [lang]="lang.code" (click)="clear()" type="button">
+                          <img width="15px" class="btn-img" src="assets/images/times.png" alt=""/>
+                        </button>
+                      </div>
+                    </div>
+                  -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+        <div class="row">
+            <div class="col-12 font-24">
+                <img src="assets/images/filter.png" class="me-4" style="vertical-align: initial;" alt=""> {{'filter' | translate}}
+            </div>
+            <div class="col-12">
+                <p-accordion [multiple]="true" styleClass="filter-business" expandIcon="pi pi-plus-circle" collapseIcon="pi pi-minus-circle">
+                    <p-accordionTab [header]="'revision_status'| translate">
+                        <ul class="filter-list mb-0">
+                            <ng-container *ngIf="listRevisionStatus.length==0; else nolistRevisionStatus">
+                                <li>{{'no_records' | translate}}</li>
+                            </ng-container>
+                            <ng-template #nolistRevisionStatus>
+                                <li *ngFor="let status of listRevisionStatus" class="cursor-pointer" [ngClass]="{'text-pf-primary': form_search.get('revision_status')&&form_search.get('revision_status')!.value.id==status.id}" (click)="applyFilterRevision(status)">
+                                    {{ status.name | translate }}
+                                </li>
+                            </ng-template>
+                        </ul>
+                    </p-accordionTab>
+                    <p-accordionTab [header]="'period' | translate">
+                        <ul class="filter-list mb-0">
+                            <ng-container *ngIf="listPeriod&&listPeriod.length==0; else nolistPeriod">
+                                <li>{{'no_records' | translate}}</li>
+                            </ng-container>
+                            <ng-template #nolistPeriod>
+                                <li *ngFor="let period of listPeriod" class="cursor-pointer" [ngClass]="{'text-pf-primary': form_search.get('periodo')&&form_search.get('periodo')!.value.id==period.id}" (click)="searchPeriod(period)">{{period.name | translate}}</li>
+                            </ng-template>
+                        </ul>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="card">
+            <div class="card-body" style="border-bottom: 0 !important">
+                <div class="row">
+                    <div class="col-12">
+
+                        <h3 class="border-title">
+                            <!-- <button class="btn btn-pf-primary mb-1" (click)="location.back()">
+                <img src="assets/images/back.svg" class="btn-img" width="20px" alt="" />
+              </button> -->
+                            {{ "assign_forms" | translate }}
+                        </h3>
+                    </div>
+                    <div class="row pt-2 animate__animated animate__fadeIn">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                                            <form [formGroup]="form_search">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="field">
+                                                            <label class="text-search">{{ "assigned_company" | translate }}
+                          </label>
+                                                            <input id="name" formControlName="name" class="w-100" type="text" [placeholder]="'search' | translate" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="field">
+                                                    <label class="text-search">{{ "revision_status" | translate }}
+                          </label>
+                                                    <span class="p-input-icon-left w-100 w-search-list">
+                            <p-dropdown
+                              id="revision_status"
+                              [options]="listRevisionStatus"
+                              optionLabel="name"
+                              [filter]="true"
+                              filterBy="name"
+                              [placeholder]="'revision_status' | translate"
+                              [autoDisplayFirst]="false"
+                              formControlName="revision_status"
+                              [showClear]="true"
+                            >
+                              <ng-template pTemplate="selectedItem">
+                                <div
+                                  class="country-item country-item-value"
+                                  *ngIf="form_search.get('revision_status')"
+                                >
+                                  <div>
+                                    {{
+                                      form_search.get("revision_status")?.value
+                                        .name | translate
+                                    }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                              <ng-template let-revision_status pTemplate="item">
+                                <div class="country-item">
+                                  <div>
+                                    {{ revision_status.name | translate }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </p-dropdown>
+                          </span>
+                                                </div>
+                                            </div> -->
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="field">
+                                                            <label class="text-search">{{ "proforestform" | translate }}
+                          </label>
+                                                            <span class="p-input-icon-left w-100 w-search-list">
+                            <p-dropdown
+                              id="proforestform_id"
+                              [options]="proforestForms"
+                              optionLabel="name"
+                              [filter]="true"
+                              filterBy="name"
+                              [placeholder]="'forms' | translate"
+                              [autoDisplayFirst]="false"
+                              formControlName="proforestform_id"
+                              [showClear]="true"
+                            >
+                              <ng-template pTemplate="selectedItem">
+                                <div
+                                  class="country-item country-item-value"
+                                  *ngIf="form_search.get('proforestform_id')"
+                                >
+                                  <div>
+                                    {{
+                                      form_search.get("proforestform_id")?.value
+                                        .name | translate
+                                    }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                              <ng-template let-item pTemplate="item">
+                                <div class="country-item">
+                                  <div>{{ item.name | translate }}</div>
+                                </div>
+                              </ng-template>
+                            </p-dropdown>
+                          </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="field">
+                                                            <label class="text-search">{{ "revisor" | translate }}
+                          </label>
+                                                            <span class="p-input-icon-left w-100 w-search-list">
+                            <p-dropdown
+                              id="revisor_id"
+                              [options]="revisors"
+                              optionLabel="full_name"
+                              [filter]="true"
+                              filterBy="full_name"
+                              [placeholder]="'revisor' | translate"
+                              [autoDisplayFirst]="false"
+                              formControlName="revisor_id"
+                              [showClear]="true"
+                            >
+                              <ng-template pTemplate="selectedItem">
+                                <div
+                                  class="country-item country-item-value"
+                                  *ngIf="form_search.get('revisor_id')"
+                                >
+                                  <div>
+                                    {{
+                                      form_search.get("revisor_id")?.value
+                                        .full_name 
+                                    }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                              <ng-template let-item pTemplate="item">
+                                <div class="country-item">
+                                  <div>{{ item.full_name  }}</div>
+                                </div>
+                              </ng-template>
+                            </p-dropdown>
+                          </span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <div class="field">
+                                                    <label class="text-search">{{ "period" | translate }}
+                          </label>
+                                                    <span class="p-input-icon-left w-100 w-search-list">
+                            <p-dropdown
+                              id="period"
+                              [options]="listPeriod"
+                              optionLabel="name"
+                              [filter]="true"
+                              filterBy="name"
+                              [placeholder]="'period' | translate"
+                              [autoDisplayFirst]="false"
+                              formControlName="periodo"
+                              [showClear]="true"
+                            >
+                              <ng-template pTemplate="selectedItem">
+                                <div
+                                  class="country-item country-item-value"
+                                  *ngIf="form_search.get('periodo')"
+                                >
+                                  <div>
+                                    {{
+                                      form_search.get("periodo")?.value.name
+                                        | translate
+                                    }}
+                                  </div>
+                                </div>
+                              </ng-template>
+                              <ng-template let-period pTemplate="item">
+                                <div class="country-item">
+                                  <div>{{ period.name | translate }}</div>
+                                </div>
+                              </ng-template>
+                            </p-dropdown>
+                          </span>
+                                                </div>
+                                            </div> -->
+
+
+                                                </div>
+                                            </form>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <button class="btn btn-pf-primary export-btn" (click)="asignarAction($event,op_en)">
+                      {{ "to_assign" | translate }}
+                    </button>
+                                                <p-overlayPanel #op_en [dismissable]="true" [showCloseIcon]="false">
+                                                    <ng-template pTemplate>
+                                                        <ul *ngIf="errorV" class="pl-2 ml-2 mt-0 mb-0 font-13" style="line-height: 1.5">
+                                                            <ng-container>
+                                                                <li>{{ errorMessageV | translate }}</li>
+                                                            </ng-container>
+                                                        </ul>
+                                                    </ng-template>
+                                                </p-overlayPanel>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 d-flex align-items-center  mt-2">
+                                            <button class="btn btn-pf-primary w-100  chang-clear" [lang]="lang.code" (click)="clear()" type="button">
+                                        <img width="15px" class="btn-img" src="assets/images/times.png" alt=""/>
+                                      </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- <span class="p-input-icon-left w-75 w-search-list">
+                                    <i class="pi pi-search" style="color: var(--pf-blue);"></i>
+                                    <input type="text" [(ngModel)]="textSearch" (keyup)="applyFilter($event)" class="w-100" style="padding-left: 2.5rem !important; border-radius: 26px !important;" pInputText [placeholder]="'search' | translate" />
+                                </span> -->
+                                </div>
+                                <div class="example-container position-relative">
+                                    <app-load-table></app-load-table>
+                                    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="table-list-business">
+
+
+                                        <ng-container matColumnDef="assigned_company">
+                                            <th mat-header-cell *matHeaderCellDef width="20%">
+                                                {{ "assigned_company" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{ element.assigned_company.name }}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="name">
+                                            <th mat-header-cell *matHeaderCellDef width="20%">
+                                                {{ "name" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{ element.name }}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="revision_status">
+                                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                                {{ "revision_status" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{ listStatusRevision[element.revision_status] | translate }}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- <ng-container matColumnDef="revisor">
+                                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                                {{ "revisor" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{ (element.revisor?element.revisor:'Not Assigned') | translate }}
+                                            </td>
+                                        </ng-container> -->
+                                        <ng-container matColumnDef="period">
+                                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                                {{ "period" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{ (element.period.name) | translate }}
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                                {{ "action" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <!-- <button class="btn btn-pf-primary" (click)="setCompany(element)" type="button"> -->
+                                                <button class="btn btn-pf-primary export-btn" (click)="asignarAction2($event,op_en, element)" type="button">
+                                                {{ "to_assign" | translate }}
+                                              </button>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="more">
+                                            <th mat-header-cell *matHeaderCellDef width="1%" class="text-center"> {{'more' | translate}} </th>
+                                            <td mat-cell *matCellDef="let element" class="text-center">
+                                                <button class="btn border-none" style="margin-top: 5px;" (click)="expand(element)">
+                                                  <i class="pi pi-chevron-down"></i>
+                                              </button>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="expandedDetail">
+                                            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                                    <div class="py-3 w-75 d-block mx-auto more-business">
+                                                        <div class="row">
+
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <div class="field">
+                                                                    <label class="d-block">{{ "name" | translate }}</label>
+                                                                    <input type="text" class="w-100" pInputText readonly value="{{ element.name }}" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <div class="field">
+                                                                    <label class="d-block">{{ "revision_status" | translate }}</label>
+                                                                    <input type="text" class="w-100" pInputText readonly value="{{ listStatusRevision[element.revision_status] | translate }}" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <div class="field">
+                                                                    <label class="d-block">{{ "period" | translate }}</label>
+                                                                    <input type="text" class="w-100" pInputText readonly value="{{ (element.period.name) | translate }}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- <ul class="filter-list">
+                                                          <li>
+                                                              <span class="mb-0 fw-bold">{{'code' | translate}}</span>:
+                                                              <p class="mb-0" style="color: rgb(135 135 135);">{{element.code}}</p>
+                                                          </li>
+                                                      </ul> -->
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: columnsToDisplay" class="example-element-row" [class.example-expanded-row]="expandedElement === row" [ngClass]="{ highlight: selectedRowIndex == row.id }"></tr>
+                                        <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" *ngIf="filterValue != ''; else noData" colspan="4">
+                                                {{ "no_found" | translate }} "{{ filterValue }}"
+                                            </td>
+                                            <ng-template #noData>
+                                                <td class="mat-cell" colspan="4">
+                                                    {{ "no_records" | translate }}
+                                                </td>
+                                            </ng-template>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<p-dialog [(visible)]="displayConfirm" [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '45vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12 mt-2">
+            <h3 class="text-center">
+
+            </h3>
+            <p>{{ "list_of_validators" | translate }}</p>
+        </div>
+        <div class="col-12">
+            <div class="validators-content">
+                <div class="card-body">
+                    <span *ngIf="loadV" class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                </div>
+                <mat-radio-group name="opList" fxLayout="column">
+                    <div class="validators-list" *ngFor="let item of validators">
+                        <div class="validators-box">
+                            <div class="validators-name">
+                                <label for="r-item-{{ item.id }}">{{ item.full_name }}</label>
+                            </div>
+                            <div class="validators-action">
+                                <input name="validatorsIds" id="r-item-{{ item.id }}" (change)="confirmValidatorChange(item.id)" class="form-check-input" type="checkbox" [value]="item.id">
+                                <!-- <mat-radio-button id="r-item-{{ item.id }}" (change)="confirmValidatorChange(item.id)" style="color: #00a7b0" [value]="item.id" [checked]="item.checked">
+                                </mat-radio-button> -->
+                            </div>
+                        </div>
+                    </div>
+                </mat-radio-group>
+                <div>
+                    <mat-paginator (page)="paginationValidatorsChangeSize($event)" [length]="listSizeV" [pageSizeOptions]="pageSizeOptionsV"></mat-paginator>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-6">
+            <div class="field">
+                <label>{{ "start_date" | translate }} -
+        {{ "end_date" | translate }}</label
+      >
+
+      <p-calendar
+        class="c-validator"
+        selectionMode="range"
+        id="end_date_validation"
+        [(ngModel)]="range_date_validation"
+        dateFormat="dd/mm/yy"
+        inputId="enddatevalidation"
+        [placeholder]="'dates' | translate"
+        [showClear]="true"
+        (onClear)="clearRangeDate()"
+      ></p-calendar>
+    </div>
+  </div>
+  <div class="col-12 pt-4">
+    
+    <button
+      style="margin: 3px"
+      class="btn btn-pf-primary p-btn"
+      (click)="confirmValidator($event, op_en)"
+    >
+      {{ "confirm" | translate }}
+    </button>
+    <button
+      style="margin: 3px"
+      class="btn btn-cancel p-btn"
+      (click)="cancelValidator()"
+    >
+      {{ "cancel" | translate }}
+    </button>
+  </div>
+
+</div>
+</p-dialog>
+
+<p-dialog [(visible)]="displayConfirm2" [modal]="true" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '45vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12 mt-2">
+            <h3 class="text-center">
+
+            </h3>
+            <p>{{ "list_of_validators" | translate }}</p>
+        </div>
+        <div class="col-12">
+            <div class="validators-content">
+                <div class="card-body">
+                    <span *ngIf="loadV" class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                </div>
+                <mat-radio-group name="opList" fxLayout="column">
+                    <div class="validators-list" *ngFor="let item of validators">
+                        <div class="validators-box">
+                            <div class="validators-name">
+                                <label for="r-item-{{ item.id }}">{{ item.full_name }}</label>
+            </div>
+            <div class="validators-action">
+                <input name="validatorsIds" id="r-item-{{ item.id }}" (change)="confirmValidatorChange(item.id)" class="form-check-input" type="checkbox" [value]="item.id">
+                <!-- <mat-radio-button id="r-item-{{ item.id }}" (change)="confirmValidatorChange(item.id)" style="color: #00a7b0" [value]="item.id" [checked]="item.checked">
+                                </mat-radio-button> -->
+            </div>
+        </div>
+    </div>
+    </mat-radio-group>
+    <div>
+        <mat-paginator (page)="paginationValidatorsChangeSize($event)" [length]="listSizeV" [pageSizeOptions]="pageSizeOptionsV"></mat-paginator>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-12 mt-6">
+        <div class="field">
+            <label>{{ "start_date" | translate }} -
+        {{ "end_date" | translate }}</label
+      >
+
+      <p-calendar
+        class="c-validator"
+        selectionMode="range"
+        id="end_date_validation"
+        [(ngModel)]="range_date_validation"
+        dateFormat="dd/mm/yy"
+        inputId="enddatevalidation"
+        [placeholder]="'dates' | translate"
+        [showClear]="true"
+        (onClear)="clearRangeDate()"
+      ></p-calendar>
+    </div>
+  </div>
+  <div class="col-12 pt-4">
+    
+    <button
+      style="margin: 3px"
+      class="btn btn-pf-primary p-btn"
+      (click)="confirmValidator2($event, op_en)"
+    >
+      {{ "confirm" | translate }}
+    </button>
+    <button
+      style="margin: 3px"
+      class="btn btn-cancel p-btn"
+      (click)="cancelValidator()"
+    >
+      {{ "cancel" | translate }}
+    </button>
+  </div>
+
+</div>
+</p-dialog>

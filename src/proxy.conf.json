@@ -1,0 +1,8 @@
+{
+    "https://login.microsoftonline.com/*": {
+        "target": "https://login.microsoftonline.com",
+        "secure": true,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}

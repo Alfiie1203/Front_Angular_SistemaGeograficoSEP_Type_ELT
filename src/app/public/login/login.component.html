@@ -1,0 +1,43 @@
+<div class="form-home pt-0 animate__animated animate__fadeIn">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="font-30 mb-0">{{'login' | translate}}</h1>
+        </div>
+    </div>
+    <form autocomplete="off" [formGroup]="form" (ngSubmit)="login()">
+        <div class="row">
+            <div class="col-12">
+                <div class="field">
+                    <label for="email" class="d-block">{{'into_email' | translate}}</label>
+                    <input id="email" [ngClass]="{'ng-invalid ng-dirty': f['email'].invalid && f['email'].touched}" formControlName="email" class="w-100" type="text" [placeholder]="'email' | translate" aria-describedby="email" pInputText/>
+                    <div *ngIf="f['email'].invalid && f['email'].touched && f['email'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                        <small id="email-help" *ngIf="f['email'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                        <small id="email-help" *ngIf="f['email'].errors['pattern']" class="block">{{'email_invalid' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="field">
+                    <label for="password" class="d-block">{{'into_password' | translate}}</label>
+                    <p-password [ngClass]="{'ng-invalid ng-dirty': f['password'].invalid && f['password'].touched}" formControlName="password" [placeholder]="'password' | translate" class="" styleClass="p-pf-paswword" [feedback]="false" [toggleMask]="true">
+                    </p-password>
+                    <div *ngIf="f['password'].invalid && f['password'].touched && f['password'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                        <small id="password-help" *ngIf="f['password'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-end font-13"><a href="javascript: void(0);" (click)="forgot()" class="text-decoration-none text-pf-primary">{{'forgot_password' | translate}}</a></div>
+            <div class="col-12 text-center mt-2">
+                <ng-container *ngIf="!loading; else load">
+                    <button type="submit"  class="btn btn-pf-primary p-btn" [disabled]="loading">
+                        {{'login' | translate}}
+                    </button>
+                </ng-container>
+                <ng-template #load>
+                    <span class="spinner-grow text-pf-primary" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                </ng-template>
+            </div>
+            
+        </div>
+    </form>
+</div>

@@ -1,0 +1,19 @@
+.card-question{
+    border-radius: 0 !important;
+    background: #fff;
+    width: 80%;
+}
+
+.icon-option{
+    width: 15px;
+    margin-right: 5px;   
+}
+
+
+
+@media only screen and (max-width: 576px) {
+    .card-question{
+        width: 100%;
+    }
+}
+

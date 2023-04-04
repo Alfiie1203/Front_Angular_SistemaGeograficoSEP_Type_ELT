@@ -1,0 +1,350 @@
+<div class="page-header animate__animated animate__fadeIn pb-5">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10">{{dataUser.first_name}} {{dataUser.second_name}} {{dataUser.surname}} {{dataUser.second_surname}}<small class="font-12" style="color: rgb(135 135 135);">({{dataUser.role?dataUser.role.name:'no_description' | translate}})</small></h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div *ngIf="updateData" class="col-lg-1 col-md-1 pb-3 col-sm-1 col-xs-12">
+        <button class="btn btn-pf-primary" (click)="location.back()">
+            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="">
+        </button>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <form autocomplete="off" (ngSubmit)="register()" [formGroup]="form">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="border-title d-flex">
+                                {{'data' | translate}}
+                                <div class="form-check form-switch ms-auto mb-1">
+                                    <input formControlName="status" class="form-check-input ms-2" type="checkbox" role="switch">
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ng-container *ngIf="!updateData; else ifUpdate">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'first_name' | translate}}</label> <span class="text-danger">*</span>
+                                    </div>
+                                    <input id="first_name" formControlName="first_name" [ngClass]="{'ng-invalid ng-dirty': f['first_name'].invalid && f['first_name'].touched}" class=" w-100" type="text" [placeholder]="'first_name' | translate" pInputText/>
+                                    <div *ngIf="f['first_name'].invalid && f['first_name'].touched && f['first_name'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                        <small id="first_name-help" *ngIf="f['first_name'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'second_name' | translate}}</label>
+                                    </div>
+                                    <input formControlName="second_name" id="second_name" class=" w-100" type="text" [placeholder]="'second_name' | translate" pInputText/>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'surname' | translate}}</label> <span class="text-danger">*</span>
+                                    </div>
+                                    <input id="surname" [ngClass]="{'ng-invalid ng-dirty': f['surname'].invalid && f['surname'].touched}" formControlName="surname" class=" w-100" type="text" [placeholder]="'surname' | translate" pInputText/>
+                                    <div *ngIf="f['surname'].invalid && f['surname'].touched && f['surname'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                        <small id="surname-help" *ngIf="f['surname'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'second_surname' | translate}}</label>
+                                    </div>
+                                    <input id="second_surname" formControlName="second_surname" class="w-100" type="text" [placeholder]="'second_surname' | translate" pInputText/>
+                                </div>
+                            </div>
+
+                        </ng-container>
+                        <ng-template #ifUpdate>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'first_name' | translate}}</label> <span class="text-danger">*</span>
+                                    </div>
+                                    <input id="first_name" formControlName="first_name" [ngClass]="{'ng-invalid ng-dirty': f['first_name'].invalid && f['first_name'].touched}" class=" w-100" type="text" [placeholder]="'first_name' | translate" pInputText/>
+                                    <div *ngIf="f['first_name'].invalid && f['first_name'].touched && f['first_name'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                        <small id="first_name-help" *ngIf="f['first_name'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'second_name' | translate}}</label>
+                                    </div>
+                                    <input formControlName="second_name" id="second_name" class=" w-100" type="text" [placeholder]="'second_name' | translate" pInputText/>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'surname' | translate}}</label> <span class="text-danger">*</span>
+                                    </div>
+                                    <input id="surname" [ngClass]="{'ng-invalid ng-dirty': f['surname'].invalid && f['surname'].touched}" formControlName="surname" class=" w-100" type="text" [placeholder]="'surname' | translate" pInputText/>
+                                    <div *ngIf="f['surname'].invalid && f['surname'].touched && f['surname'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                        <small id="surname-help" *ngIf="f['surname'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'second_surname' | translate}}</label>
+                                    </div>
+                                    <input id="second_surname" formControlName="second_surname" class="w-100" type="text" [placeholder]="'second_surname' | translate" pInputText/>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input align-items-center">
+                                    <label class="d-block truncate-text"> {{'rol' | translate}}</label> <span class="text-danger">*</span> <i class="pi pi-exclamation-circle ms-auto cursor-pointer info-permission" (click)="activeState = !activeState"></i>
+                                </div>
+                                <p-dropdown id="rol" [options]="listRol" [placeholder]="'selected_rol' | translate" formControlName="listRol" [group]="true" [ngClass]="{'ng-invalid ng-dirty': f['listRol'].invalid && f['listRol'].touched}" (onChange)="getPermission()">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div *ngIf="form.get('listRol')">
+                                            {{form.get('listRol')?.value.name | translate}}
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-group pTemplate="group">
+                                        <span>{{group.name | translate}}</span>
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="items">
+                                        {{item.name | translate}}
+                                    </ng-template>
+                                </p-dropdown>
+                                <div *ngIf="f['listRol'].invalid && f['listRol'].touched && f['listRol'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="listRol-help" *ngIf="f['listRol'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="displayBusiness">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <div class="d-flex title-input">
+                                        <label class="d-block truncate-text"> {{'business' | translate}}</label> <span class="text-danger">*</span>
+                                    </div>
+                                    <p-dropdown id="business" [options]="allBusiness" optionLabel="name" class="" [filter]="true" filterBy="name" [placeholder]="'selected_business' | translate" formControlName="listBusiness" [autoDisplayFirst]="false" [ngClass]="{'ng-invalid ng-dirty': f['listBusiness'].invalid && f['listBusiness'].touched}">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="country-item country-item-value" *ngIf="form.get('listBusiness')">
+                                                <div>{{form.get('listBusiness')?.value.name}}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-listBusiness pTemplate="item">
+                                            <div class="listBusiness-item">
+                                                <div>{{listBusiness.name}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <div *ngIf="f['listBusiness'].invalid && f['listBusiness'].touched && f['listBusiness'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                        <small id="listBusiness-help" *ngIf="f['listBusiness'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'country' | translate}}</label> <span class="text-danger">*</span>
+                                </div>
+                                <p-dropdown id="listCountry" [ngClass]="{'ng-invalid ng-dirty': f['listCountry'].invalid && f['listCountry'].touched}" [options]="listCountry" class="bg-" optionLabel="name" [filter]="true" filterBy="name" [placeholder]="'selected_country' |translate"
+                                    formControlName="listCountry" [autoDisplayFirst]="false" (onChange)="setIndicative()">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div class="country-item country-item-value" *ngIf="form.get('listCountry')">
+
+                                            <div>{{form.get('listCountry')?.value.name}}</div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-country2 pTemplate="item">
+                                        <div class="country-item">
+
+                                            <div>{{country2.name}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                                <div *ngIf="f['listCountry'].invalid && f['listCountry'].touched && f['listCountry'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="listCountry-help" *ngIf="f['listCountry'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'phone' | translate}}</label> <span class="text-danger">*</span>
+                                </div>
+                                <div class="d-inline-flex w-100">
+                                    <input id="indicative" [ngClass]="{'ng-invalid ng-dirty': f['indicative'].invalid && f['indicative'].touched}" formControlName="indicative" type="text" class="w-50" placeholder="+57" [style]="{'padding-left': '10px !important', 'padding-right': '10px !important', 'text-align': 'center'}"
+                                        pInputText readonly/>
+                                    <input id="phone" [ngClass]="{'ng-invalid ng-dirty': f['phone'].invalid && f['phone'].touched}" formControlName="phone" class="w-100" type="number" [placeholder]="'phone' | translate" [style]="{'width': '100% !important','margin-left': '5px'}" pInputText/>
+                                </div>
+                                <div *ngIf="f['phone'].invalid && f['phone'].touched && f['phone'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="phone-help" *ngIf="f['phone'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'email' | translate}}</label> <span class="text-danger">*</span>
+                                </div>
+                                <input id="email" autocomplete="new-password" [ngClass]="{'ng-invalid ng-dirty': f['email'].invalid && f['email'].touched}" formControlName="email" class=" w-100" type="email" [placeholder]="'email' | translate" pInputText/>
+                                <div *ngIf="f['email'].invalid && f['email'].touched && f['email'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="email-help" *ngIf="f['email'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="email-help" *ngIf="f['email'].errors['pattern']" class="block">{{'email_invalid' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'confirm_email' | translate}}</label> <span class="text-danger">*</span>
+                                </div>
+                                <input id="confirm_email" [ngClass]="{'ng-invalid ng-dirty': f['confirm_email'].invalid && f['confirm_email'].touched}" formControlName="confirm_email" class="w-100" type="email" [placeholder]="'email' | translate" pInputText/>
+                                <div *ngIf="f['confirm_email'].invalid && f['confirm_email'].touched && f['confirm_email'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="confirm_email-help" *ngIf="f['confirm_email'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="confirm_email-help" *ngIf="f['confirm_email'].errors['pattern']" class="block">{{'email_invalid' | translate}}</small>
+                                    <small id="confirm_email-help" *ngIf="f['confirm_email'].errors['match']" class="block">{{'email_no_match' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'password' | translate}}</label> <span *ngIf="!updateData" class="text-danger">*</span>
+                                </div>
+                                <p-password id="password" (click)="op.toggle($event)" [ngClass]="{'ng-invalid ng-dirty': f['password'].invalid && f['password'].touched}" formControlName="password" [placeholder]="'password' | translate" class="" autocomplete="new-password" styleClass="p-pf-paswword"
+                                    [toggleMask]="true" [feedback]="false">
+                                </p-password>
+                                <div *ngIf="f['password'].invalid && f['password'].touched && f['password'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="password-help" *ngIf="f['password'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="password-help" *ngIf="f['password'].errors['minlength']" class="block">{{'min_value_field' | translate:{length: '8'} }}</small>
+                                    <small id="password-help" *ngIf="f['password'].errors['hasNumber']" class="block">{{'least_numeric' | translate:{length: '8'} }}</small>
+                                    <small id="password-help" *ngIf="f['password'].errors['hasCapitalCase']" class="block">{{'least_uppercase' | translate:{length: '8'} }}</small>
+                                    <small id="password-help" *ngIf="f['password'].errors['hasSmallCase']" class="block">{{'least_lowercase' | translate:{length: '8'} }}</small>
+                                    <small id="password-help" *ngIf="f['password'].errors['hasSpecialCharacters']" class="block">{{'least_character_special' | translate:{length: '8'} }}</small>
+                                </div>
+                                <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false">
+                                    <ng-template pTemplate>
+                                        <p class="mt-2 font-16">{{'suggestions' | translate}}</p>
+                                        <p-divider></p-divider>
+
+                                        <ul class="pl-2 ml-2 mt-0 font-13" style="line-height: 1.5">
+                                            <li [ngClass]="f['password'].errors!=null && (f['password'].errors['required'] || f['password'].errors['minlength']) ? '' : 'text-success'">{{'min_value_field' | translate:{length: '8'} }}</li>
+                                            <li [ngClass]="f['password'].errors!=null && (f['password'].errors['required'] || f['password'].errors['hasNumber']) ? '' : 'text-success'">{{'least_numeric' | translate}}</li>
+                                            <li [ngClass]="f['password'].errors!=null && (f['password'].errors['required'] || f['password'].errors['hasCapitalCase']) ? '' : 'text-success'">{{'least_uppercase' | translate}}</li>
+                                            <li [ngClass]="f['password'].errors!=null && (f['password'].errors['required'] || f['password'].errors['hasSmallCase']) ? '' : 'text-success'">{{'least_lowercase' | translate}}</li>
+                                            <li [ngClass]="f['password'].errors!=null && (f['password'].errors['required'] || f['password'].errors['hasSpecialCharacters']) ? '' : 'text-success'">{{'least_character_special' | translate}}</li>
+                                        </ul>
+                                    </ng-template>
+                                </p-overlayPanel>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="field">
+                                <div class="d-flex title-input">
+                                    <label class="d-block truncate-text"> {{'confirm_password' | translate}}</label> <span *ngIf="!updateData" class="text-danger">*</span>
+                                </div>
+                                <p-password id="confirm_password" [ngClass]="{'ng-invalid ng-dirty': f['confirm_password'].invalid && f['confirm_password'].touched}" formControlName="confirm_password" [placeholder]="'password' | translate" class="" styleClass="p-pf-paswword" [feedback]="false"
+                                    [toggleMask]="true">
+                                </p-password>
+                                <div *ngIf="f['confirm_password'].invalid && f['confirm_password'].touched && f['confirm_password'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="confirm_password-help" *ngIf="f['confirm_password'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="confirm_password-help" *ngIf="f['confirm_password'].errors['match']" class="block">{{'password_no_match' | translate}}</small>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <p-accordion>
+                        <p-accordionTab [header]="'permissions' | translate" [(selected)]="activeState">
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <div class="card" style="background: transparent; border: none; box-shadow: none;">
+
+
+                                        <div class="example-container">
+                                            <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="table-list-business">
+
+
+                                                <ng-container matColumnDef="permission">
+                                                    <th mat-header-cell *matHeaderCellDef width="80%"> {{'permissions' | translate}} </th>
+                                                    <td mat-cell *matCellDef="let element" (click)="checked(element)"> {{element | translate}} </td>
+                                                </ng-container>
+
+
+                                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row">
+                                                </tr>
+                                                <tr class="mat-row" *matNoDataRow>
+                                                    <td class="mat-cell" colspan="4">{{'no_records' | translate}}</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </p-accordionTab>
+                    </p-accordion>
+                    <div class="row">
+                        <div class="col-12">
+                            <ng-container *ngIf="!loading; else load">
+                                <button *ngIf="!updateData" class="btn btn-pf-primary p-btn" type="submit">
+                                    <img src="assets/images/save.png" class="me-2 btn-img" width="20px" alt=""> {{'register' | translate}}
+                                </button>
+                                <button *ngIf="updateData" class="btn btn-pf-primary p-btn" type="submit">
+                                    <img src="assets/images/save.png" class="me-2 btn-img" width="20px" alt=""> {{'update' | translate}}
+                                </button>
+                            </ng-container>
+                            <ng-template #load>
+                                <span class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayConfirm" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div *ngIf="!updateData" class="col-12">
+            <h3 class="text-center"><b> {{'register_success' | translate}} </b></h3>
+            <p>{{'description_register_success' | translate}}</p>
+        </div>
+        <div *ngIf="updateData" class="col-12">
+            <h3 class="text-center"><b> {{'update_success' | translate}} </b></h3>
+            <p>{{'description_update_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="listUser()"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>

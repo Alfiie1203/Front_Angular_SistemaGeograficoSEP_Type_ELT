@@ -1,0 +1,241 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="'user_list2' | translate | changeTitle"></h2>
+                    <button *ngIf="permissionAdd" class="btn btn-pf-primary more-btn ml-auto" routerLink="/users/create-edit-user">
+                <img src="assets/images/add-user.png" width="20px" class="btn-img cursor-pointer" alt="">
+            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <span class="p-input-icon-left w-75 w-search-list">
+                    <i class="pi pi-search" style="color: var(--pf-blue);"></i>
+                    <input type="text" [(ngModel)]="textSearch" (keyup)="applyFilter($event)" class="w-100" style="padding-left: 2.5rem !important; border-radius: 26px !important;" pInputText [placeholder]="'search' | translate" />
+                </span>
+            </div>
+            <div class="example-container position-relative">
+                <app-load-table></app-load-table>
+                <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="table-list-business">
+
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center">
+                            <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            [aria-label]="checkboxLabel()"
+                                            >
+                            </mat-checkbox> -->
+                        </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="full_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header width="30%"> {{'full_name' | translate}} </th>
+                        <td mat-cell *matCellDef="let element" (click)="checked(element)">
+                            <span class="d-block">
+                                {{element.first_name}} {{element.second_name}} {{element.surname}} {{element.second_surname}} 
+                                <!-- - {{element.role.name}} - {{element.groups.name}} -->
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="company">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header width="34%"> {{'enterprise' | translate}} </th>
+                        <td mat-cell *matCellDef="let element" (click)="checked(element)">
+                            <span *ngIf="element.company==null; else company" class="d-block">
+                                {{'no_description' | translate}} 
+                            </span>
+                            <ng-template #company>
+                                <span class="d-block">
+                                    {{ element.company.name}} 
+                                </span>
+                            </ng-template>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="switch">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> {{'status' | translate}} </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="form-check form-switch">
+                                <span class="d-block truncate-business" [ngClass]="element.status?'text-success':'text-danger'">
+                                    <ng-container *ngIf="element.status; else noActive">
+                                        {{'active' | translate}}
+                                    </ng-container>
+                                    <ng-template #noActive>
+                                        {{'inactive' | translate}}
+                                    </ng-template>
+                                    
+                                </span>
+                                <!-- <input class="form-check-input" disabled="true" onclick="return false;" [(ngModel)]="element.status" type="checkbox" role="switch" id="flexSwitchCheckDefault"> -->
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef width="5%" class="text-center"> {{'action' | translate}} </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button class="btn border-none" style="margin-top: 5px;" [matMenuTriggerFor]="menu">
+                                <i class="pi pi-ellipsis-v"></i>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="expand(element)" class="view-more" mat-menu-item>
+                                    <i class="icon-option pi pi-eye" style="vertical-align: middle;"></i>
+                                    <span *ngIf="expandedElement==null">{{'view_more' | translate}}</span>
+                                    <span *ngIf="expandedElement!=null && expandedElement.id==element.id" >{{'hide' | translate}}</span>
+                                    <span *ngIf="expandedElement!=null && expandedElement.id!=element.id" >{{'view_more' | translate}}</span>
+                                </button>
+                                <button *ngIf="permissionChange" (click)="edit(element)" mat-menu-item>
+                                    <img src="assets/images/edit.png" class="icon-option" alt="">
+                                    <span>{{'edit' | translate}}</span>
+                                </button>
+                                <button *ngIf="permissionDelete&&element.status" (click)="showDelete(element)" mat-menu-item>
+                                    <img [src]="element.status?'assets/images/unique_option_circle.png':'assets/images/unique_option.png'" class="icon-option" alt="">
+                                    <span *ngIf="element.status">{{'disable' | translate}}</span>
+                                    <span *ngIf="!element.status">{{'enable' | translate}}</span>
+                                </button>
+
+                                <!-- <button *ngIf="permissionDelete" (click)="disableEnable(element)" mat-menu-item>
+                                    <img [src]="element.status?'assets/images/unique_option_circle.png':'assets/images/unique_option.png'" class="icon-option" alt="">
+                                    <span *ngIf="element.status">{{'disable' | translate}}</span>
+                                    <span *ngIf="!element.status">{{'enable' | translate}}</span>
+                                </button> -->
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef width="1%" class="text-center"> {{'more' | translate}} </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button class="btn border-none" style="margin-top: 5px;" (click)="expand(element)">
+                                <i class="pi pi-chevron-down"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="py-3 w-75 d-block mx-auto more-business">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'enterprise' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.company?element.company.name:('no_description' | translate)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'email' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.email}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'phone' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.indicative}}{{element.phone}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'country' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.country!=null?element.country.name:'no_description' | translate}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'role' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.role!=null?(element.role.name | translate):('no_description' | translate)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{'subrole' | translate}}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{element.groups!=null?(element.groups.name | translate):('no_description' | translate)}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === row">
+                    </tr>
+                    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" *ngIf="filterValue!=''; else noData" colspan="4">{{'no_found' | translate}} "{{filterValue}}"</td>
+                        <ng-template #noData>
+                            <td class="mat-cell" colspan="4">{{'no_records' | translate}}</td>
+                        </ng-template>
+
+                    </tr>
+                </table>
+            </div>
+
+            <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+
+        </div>
+    </div>
+</div>
+
+
+<p-dialog *ngIf="data!=undefined" [(visible)]="display" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row">
+        <div class="col-12">
+            <h5 class="text-center"><b> {{'description_delete' | translate}} </b></h5>
+        </div>
+        <div class="col-6">
+            <div class="field">
+                <label for="email" class="d-block">{{'user' | translate}}</label>
+                <input id="email" value="{{data.first_name}} {{data.second_name}} {{data.surname}} {{data.second_surname}}" class="w-100" type="text" readonly pInputText/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field">
+                <label for="email" class="d-block">{{'rol' | translate}}</label>
+                <input id="email" [value]="data.role?data.role.name:'no_description' | translate" class="w-100" type="text" readonly pInputText/>
+            </div>
+        </div>
+        <ng-container *ngIf="!loading; else load">
+            <div class="col-6">
+                <button class="btn btn-cancel w-100" (click)="display=false; data=undefined"> {{'cancel' | translate}} </button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-outline-danger w-100" (click)="delete()"> {{'disable' | translate}} </button>
+            </div>
+        </ng-container>
+        <ng-template #load>
+            <span class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+        </ng-template>
+    </div>
+
+</p-dialog>
+
+<p-dialog [(visible)]="displayConfirm" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'delete_success' | translate}} </b></h3>
+            <p>{{'description_delete_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="displayConfirm=false"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>

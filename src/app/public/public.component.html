@@ -1,0 +1,30 @@
+<video autoplay muted loop id="myVideo">
+    <source src="https://adminsep.proforest.net/media/videos/proforest_welcome.mp4" type="video/mp4">
+</video>
+<div class="body-public d-flex align-items-center" [ngClass]="{'h-movil-register': op===1}">
+    <div class="login mx-auto animate__animated animate__fadeInDown" [ngClass]="{
+            'vw-30': op===0,
+            'vw-80 h-movil-register': op===1,
+            'vw-40': op===2
+        }">
+        <div class="logo">
+            <img src="assets/images/logo-full.png" height="60px" alt="">
+        </div>
+
+        <div class="row mt-2 pb-0" *ngIf="op==0 || op==1">
+            <div class="col-12">
+                <div class="btn-bg">
+                    <button type="button" class="btn me-1" [ngClass]="op==0?'btn-option-selected':'btn-option'" (click)="op=0">{{'login' | translate}}</button>
+                    <!-- <button type="button" class="btn btn-option" [ngClass]="op==1?'btn-option-selected':'btn-option'" (click)="op=1">{{'signup' | translate}}</button> -->
+                </div>
+            </div>
+        </div>
+
+        <app-login (forgotPassword)="forgotHome($event)" *ngIf="op==0"></app-login>
+        <app-signup *ngIf="op==1" [dataRegister]="requestRegister"></app-signup>
+        <app-forgot-password *ngIf="op==2" [request]="request" (login)="login($event)"></app-forgot-password>
+        <div class="col-12 text-center mt-0 mb-2">
+            <img src="assets/images/powerby-proforest.png" height="30px" alt="">
+        </div>
+    </div>
+</div>

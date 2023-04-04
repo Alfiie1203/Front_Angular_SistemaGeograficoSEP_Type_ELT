@@ -1,0 +1,15 @@
+:host ::ng-deep {
+    
+}
+// .header-title{
+//     display: ;
+// }
+
+@media only screen and (max-width: 576px) {
+    .page-header-title{
+        display: block;
+    }
+    .selected-option{
+        width: 100% !important;
+    }
+}

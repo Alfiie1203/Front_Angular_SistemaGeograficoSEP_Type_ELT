@@ -1,0 +1,14 @@
+.nav-bar-desk {
+    width: 50%;
+    float: right;
+    // margin-left: auto;
+    text-align: right;
+}
+
+@media only screen and (max-width: 991px) {
+    .nav-bar-mobile {
+        float: left;
+        // margin-left: auto;
+        text-align: left;
+    }
+}

@@ -1,0 +1,153 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="'resume_validate_companies' | translate | changeTitle"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+        <button class="btn btn-pf-primary" routerLink="/geographic-information/validate-traceability">
+            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="" />
+        </button>
+        <div class="row">
+            <div class="col-12 font-24">
+                <img src="assets/images/filter.png" class="me-4" style="vertical-align: initial;" alt=""> {{'filter' | translate}}
+            </div>
+            <div class="col-12">
+                <p-accordion [multiple]="true" styleClass="filter-business" expandIcon="pi pi-plus-circle" collapseIcon="pi pi-minus-circle">
+                    <p-accordionTab [header]="'period'| translate">
+                        <ul class="filter-list mb-0">
+                            <ng-container *ngIf="listPeriod.length==0; else nolistPeriod">
+                                <li>{{'no_records' | translate}}</li>
+                            </ng-container>
+                            <ng-template #nolistPeriod>
+                                <li *ngFor="let period of listPeriod" class="cursor-pointer" [ngClass]="{'text-pf-primary': periodo&&periodo.id==period.id}" (click)="applyFilterPeriod(period)">{{period.name | translate}}</li>
+                            </ng-template>
+                        </ul>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+            </div>
+            <app-load-table></app-load-table>
+
+            <div class="example-container position-relative">
+                <div class="row container-search">
+                    <div class="box-search col-lg-7 col-md-7 col-sm-7 col-xs-12 mb-2">
+                        <span class="p-input-icon-left w-100 w-search-list">
+                            <i class="pi pi-search" style="color: var(--pf-blue)"></i>
+                            <input
+                                type="text"
+                                [(ngModel)]="textSearch"
+                                (ngModelChange)="applyFilter()"
+                                class="w-100"
+                                style="
+                                padding-left: 2.5rem !important;
+                                border-radius: 26px !important;
+                                "
+                                pInputText
+                                [placeholder]="'search' | translate"
+                            />
+                            </span>
+                    </div>
+                    <div class="box-search col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                        <span class="p-input-icon-left w-100 w-search-list">
+                          <div class="search-calendar">
+                            <p-calendar
+                                  id="year"
+                                  [(ngModel)]="year"
+                                  (ngModelChange)="applyFilterYear()"
+                                  view="year"
+                                  dateFormat="yy"
+                                  inputId="yearpicker"
+                                  [placeholder]="'year' | translate"
+                                  [showClear]="true"
+                                  (onClear)="clearYear()"
+                                ></p-calendar>
+                          </div>
+                        </span>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mb-2 chang-clear">
+                        <button class="btn btn-pf-primary w-100" (click)="clear()" type="button">
+                            <img width="15px" class="btn-img" src="assets/images/times.png" alt=""/>
+                        </button>
+                    </div>
+                </div>
+
+                <table mat-table multiTemplateDataRows [dataSource]="dataSource" class="table-list-business">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef width="45%">
+                            {{ "reported_company" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="d-block truncate-business">
+                                {{ element.name_company }} 
+                                <!-- <i *ngIf="(company && company.id == element.id)" class="pi pi-check"></i>  -->
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="percent">
+                        <th mat-header-cell *matHeaderCellDef width="20%">
+                            {{ "percentage" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="d-block truncate-business">
+                                <div class="porcent-form py-1 me-2">
+                                    <div id="middle-circle">
+                                            {{element.porcentaje_validadas}}%
+                                    </div>
+                                    <div id="progress-spinner" [ngStyle]="{'background':'conic-gradient(var(--pf-blue)'+element.porcentaje_validadas+'%,rgb(242, 242, 242) '+element.porcentaje_validadas+'%)'}"></div>
+                                </div>
+                                <!-- {{ element.porcentaje_validadas }} -->
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" width="25%">
+                            {{ "action" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button class="btn btn-pf-orange export-btn me-1 mb-2" (click)="validateSend(element.id)"> {{'validate' | translate}}</button>
+                            <button class="btn btn-pf-primary export-btn mb-2" (click)="sendEmail(element.id)"> {{'noti' | translate}}</button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="example-element-row" [class.example-expanded-row]="displayedColumns === row"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <!-- <td class="mat-cell" *ngIf="textSearch!=''; else noData" colspan="4">{{'no_found' | translate}} "{{textSearch}}"</td>
+                        <ng-template #noData> -->
+                        <td class="mat-cell" colspan="4">{{'no_records' | translate}}</td>
+                        <!-- </ng-template> -->
+
+                    </tr>
+                </table>
+                <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayEmail" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'email_success' | translate}} </b></h3>
+            <!-- <p>{{'spam' | translate}}</p> -->
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="displayEmail=false"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>

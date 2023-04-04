@@ -1,0 +1,95 @@
+<ul class="navbar-nav">
+    <li>
+        <p-dropdown [options]="allLanguage" (onChange)="setLanguage()" styleClass="p-language" [(ngModel)]="language" optionLabel="name" filterBy="name">
+            <ng-template pTemplate="selectedItem">
+                <div *ngIf="language">
+                    <img [src]="language.name" width="30px" />
+                </div>
+            </ng-template>
+            <ng-template let-lang pTemplate="item">
+                <img [src]="lang.name" width="30px" />
+            </ng-template>
+        </p-dropdown>
+
+    </li>
+    <!-- <li>
+    <img src="assets/images/notifications.png" height="20px" alt="">
+  </li> -->
+    <li>
+        <div class="rol_bg">
+            {{dataUser&&dataUser.groups.name!=""?dataUser.groups.name[0].toUpperCase()+dataUser.groups.name.substring(1).toLowerCase():'no_description' | translate}}
+        </div>
+        <!-- <div class="dropdown" ngbDropdown placement="auto">
+      <a ngbDropdownToggle href="javascript:" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
+      <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right notification">
+        <div class="noti-head">
+          <h6 class="d-inline-block m-b-0">Notifications</h6>
+          <div class="float-right">
+            <a href="javascript:" class="m-r-10">mark as read</a>
+            <a href="javascript:">clear all</a>
+          </div>
+        </div>
+        <ul class="noti-body">
+          <li class="n-title">
+            <p class="m-b-0">NEW</p>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>now</span></p>
+                <p>New ticket Added</p>
+              </div>
+            </div>
+          </li>
+          <li class="n-title">
+            <p class="m-b-0">EARLIER</p>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+                <p>Prchace New Theme and make payment</p>
+              </div>
+            </div>
+          </li>
+          <li class="notification">
+            <div class="media">
+              <img class="img-radius" src="" alt="Generic placeholder image">
+              <div class="media-body">
+                <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                <p>currently login</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="noti-footer">
+          <a href="javascript:">show all</a>
+        </div>
+      </div>
+    </div> -->
+    </li>
+    <!-- <li> -->
+    <!-- <div class="dropdown drp-user" ngbDropdown placement='auto'>
+      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
+        <i class="icon feather icon-settings"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right profile-notification" ngbDropdownMenu>
+        <div class="pro-head">
+          <img src="" class="img-radius" alt="User-Profile-Image">
+          <span>John Doe</span>
+          <a href="javascript:" class="dud-logout" title="Logout">
+            <i class="feather icon-log-out"></i>
+          </a>
+        </div>
+        <ul class="pro-body">
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-settings"></i> Settings</a></li>
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+        </ul>
+      </div>
+    </div> -->
+    <!-- </li> -->
+</ul>

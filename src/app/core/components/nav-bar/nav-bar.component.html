@@ -1,0 +1,14 @@
+<header class="w-100">
+    <div class="m-header" [style.display]="this.headerStyle">
+        <a class="mobile-menu" id="mobile-collapse1" href="javascript:" (click)="this.onNavCollapsedMob.emit();"><span></span></a>
+        <a [routerLink]="['/home']" class="b-brand">
+            <img src="assets/images/proforest.png" style="width: 150px;" class="mx-auto" alt="">
+        </a>
+    </div>
+    <a class="mobile-menu text-decoration-none" [ngClass]="{'on' : this.menuClass}" id="mobile-header" href="javascript:" (click)="toggleMobOption()"><i class="pi pi-info-circle text-pf-primary font-20 rounded-circle" [ngStyle]="{'background-color':this.menuClass?'var(--pf-blue)':'','color':this.menuClass?'#fff':''}"></i></a>
+    <div class="collapse navbar-collapse" [style.display]="this.collapseStyle">
+        <app-nav-left class="mr-auto w-50" [style.display]="this.headerStyle"></app-nav-left>
+        <!-- <img src="assets/images/proforest.png" style="width: 230px;" class="mx-auto" alt=""> -->
+        <app-nav-right [dataUser]="dataUser" class="nav-bar-mobile nav-bar-desk"></app-nav-right>
+    </div>
+</header>

@@ -1,0 +1,320 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <button class="btn btn-pf-primary me-2" type="button" (click)="location.back()" style="margin-bottom: 0.5rem;">
+            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="">
+          </button>
+                    <h2 class="m-b-10" [innerHtml]="'traceability_details' | translate | changeTitle"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="border-title d-flex">
+                            {{ "data" | translate }}
+                            <button (click)="editTraceability()" class="btn btn-pf-primary export-btn ms-auto mb-1">
+                  {{ "edit" | translate }}
+                </button>
+
+                        </h3>
+
+                    </div>
+                </div>
+
+                <div *ngIf="data" class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "business_name" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.reported_company }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "nit_empresa_reporta" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.reported_company_nit }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "business_group" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div *ngIf="data.company_group" class="text-input">
+                                        {{ data.company_group.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "supplier_company_detail" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.supplier_company }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "supplier_name" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.supplier_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "tax_identification_number" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.supplier_tax_number }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "reported_user" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.reported_user }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "commodity" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.commodity.name[lang.code] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "type_actor" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.actor_type.name[lang.code] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "certification" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.certification }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "supplier_capacity" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.supplier_capacity }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "supplier_production" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.supplier_production }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "purchased_volume" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.purchased_volume * 100 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "year" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.year }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "period" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.period | periodName | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "country" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.country.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "state" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.region.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "municipality" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ (data.city?data.city.name:'') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "latitude" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.latitude }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "longitude" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.longitude }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-12">
+                        <h3 class="border-title">
+                            {{'location' | translate}}
+                        </h3>
+                    </div>
+                    <div class="map">
+                        <div class="col-12">
+                            <google-map [options]="options" [center]="position" width="100%" style="border-radius: 27px !important;">
+                                <map-marker [options]="markerOptions" [position]="position">
+                                </map-marker>
+                            </google-map>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div *ngIf="!data" class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        {{ 'no_records' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

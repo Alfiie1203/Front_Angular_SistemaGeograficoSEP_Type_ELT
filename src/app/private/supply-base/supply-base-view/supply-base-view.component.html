@@ -1,0 +1,680 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <button class="btn btn-pf-primary me-2" type="button" (click)="location.back()" style="margin-bottom: 0.5rem">
+            <img
+              src="assets/images/back.svg"
+              class="btn-img"
+              width="20px"
+              alt=""
+            />
+          </button>
+                    <h2 class="m-b-10" [innerHtml]="'supply_base_detail' | translate | changeTitle"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card graphics">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="border-title d-flex">
+                            {{ "resumen" | translate }}
+                        </h3>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div *ngFor="let item of traceability_percentage" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="traceability-resume dependencies-container mb-4 ">
+                            <div class="dependencies-title title-xl">{{ item[0] | translate }}</div>
+                            <div class="text-center">
+                                {{item[3]}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <cdk-accordion class="resumen-accordion">
+                        <cdk-accordion-item #accordionItem="cdkAccordionItem" class="resumen-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem.expanded" [attr.aria-controls]="'accordion-body'">
+                            <div class="resumen-accordion-item-header" (click)="accordionItem.toggle()">
+                                <div class="noselectable">{{ "alerts" | translate }}</div>
+                                <span class="resumen-accordion-item-description noselectable">
+                  <img class="noselectable" *ngIf="!accordionItem.expanded" width="20px" src="assets/images/more-circle.png" />
+                  <img class="noselectable" *ngIf="accordionItem.expanded" width="20px" src="assets/images/minus-circle.png" />
+                </span>
+                            </div>
+                            <div class="resumen-accordion-item-body animate__animated animate__fadeIn" role="region" [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body'" [attr.aria-labelledby]="'accordion-header'">
+                                <div class="traceability-resume dependencies-container mb-4">
+                                    <div class="dependencies-title">{{ "alert_table" | translate }}</div>
+                                    <div>
+                                        <table mat-table multiTemplateDataRows [dataSource]="dataSourceTA" class="table-list-business mb-2">
+                                            <ng-container matColumnDef="actor_type">
+                                                <th mat-header-cell *matHeaderCellDef width="25%">
+                                                    {{ "actor_types" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                    <span class="d-block">
+                            {{ element[0] | translate }}
+                          </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="traceability_registered">
+                                                <th mat-header-cell *matHeaderCellDef width="25%">
+                                                    {{ "traceability_registered" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                    <span class="d-block">
+                            {{ element[1] }}
+                          </span>
+
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="registered_supply_base">
+                                                <th mat-header-cell *matHeaderCellDef width="25%">
+                                                    {{ "registered_supply_base" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                    <span class="d-block">
+                            {{ element[2] }}
+                          </span>
+
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="alerts">
+                                                <th mat-header-cell *matHeaderCellDef width="15%">
+                                                    {{ "alerts" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                    <span class="d-block alert-{{ element[3].toLowerCase() }}">
+                            {{ element[3] }}
+                          </span>
+
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef width="10%" class="text-center">
+                                                    {{ "action" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                    <span class="d-block truncate-business text-center">
+                                                    <button style="margin:4px;padding: 4px 14px;"
+                                                      (click)="editPorcent(element[4])"
+                                                      class="btn btn-pf-primary export-btn"
+                                                      >
+                                                      {{ 'edit' | translate}}
+                                                  </button>  
+                                                  </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="more">
+                                                <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                                                    {{ "more" | translate }}
+                                                </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <button class="btn border-none" style="margin-top: 5px" (click)="expand(element)">
+                            <i class="pi pi-chevron-down"></i>
+                          </button>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="expandedDetail">
+                                                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsTA.length">
+                                                    <div class="example-element-detail" [@detailExpand]="
+                              element == expandedElement ? 'expanded' : 'collapsed'
+                            ">
+                                                        <div class="py-3 w-75 d-block mx-auto more-business">
+                                                            <div class="row">
+
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <div class="field">
+                                                                        <label class="d-block">{{ "traceability_registered" | translate }}</label>
+                                                                        <input type="text" class="w-100" pInputText readonly value="{{ element[1] }}" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <div class="field">
+                                                                        <label class="d-block">{{ "registered_supply_base" | translate }}</label>
+                                                                        <input type="text" class="w-100" pInputText readonly value="{{ element[2] }}" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                    <div class="field">
+                                                                        <label class="d-block">{{ "alerts" | translate }}</label>
+                                                                        <span class="d-block truncate-business alert-{{ element[3].toLowerCase() }}">
+                                                                                                    {{ element[3] }}
+                                                                                                </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsTA; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumnsTA" class="resumen-element-row" [class.resumen-expanded-row]="displayedColumnsTA === row"></tr>
+                                            <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">
+                                                    {{ "no_records" | translate }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </cdk-accordion-item>
+                    </cdk-accordion>
+
+                    <cdk-accordion *ngIf="traceability_resume_ && traceability_resume_.length" class="resumen-accordion mt-2">
+                        <cdk-accordion-item #accordionItemResume="cdkAccordionItem" class="resumen-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header'" [attr.aria-expanded]="accordionItem.expanded" [attr.aria-controls]="'accordion-body'">
+                            <div class="resumen-accordion-item-header" (click)="accordionItemResume.toggle()">
+                                <div class="noselectable">{{ "resume" | translate }}</div>
+                                <span class="resumen-accordion-item-description noselectable">
+                              <img class="noselectable" *ngIf="!accordionItemResume.expanded" width="20px" src="assets/images/more-circle.png" />
+                              <img class="noselectable" *ngIf="accordionItemResume.expanded" width="20px" src="assets/images/minus-circle.png" />
+                            </span>
+                            </div>
+                            <div class="resumen-accordion-item-body animate__animated animate__fadeIn" role="region" [style.display]="accordionItemResume.expanded ? '' : 'none'" [attr.id]="'accordion-body'" [attr.aria-labelledby]="'accordion-header'">
+                                <div class="traceability-resume dependencies-container mb-4">
+                                    <div class="dependencies-title">{{"summary_traceability" | translate}}</div>
+                                    <table mat-table multiTemplateDataRows [dataSource]="dataSourceResume" class="table-list-business mb-2 example-container-resume">
+                                        <ng-container matColumnDef="supplier_name">
+                                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                                {{ "supplier_name" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                <span class="d-block truncate-business">
+                                                  {{ element.supplier_name }}
+                                                </span>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actor_type2">
+                                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                                {{ "actor_type" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                <span class="d-block truncate-business">
+                                              {{ element.actor_type }}
+                                            </span>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="purchased_volume">
+                                            <th mat-header-cell *matHeaderCellDef width="15%" class="text-center">
+                                                {{ "purchased_volume" | translate }} %
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                <span class="d-block truncate-business text-center">
+                                              {{ (element.purchased_volume * 100).toFixed(2)}}%
+                                            </span>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef width="10%" class="text-center">
+                                                {{ "action" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                                <span class="d-block truncate-business text-center">
+                                                  <button style="margin:4px;padding: 4px 14px;"
+                                                    (click)="editTraceability(element.id)"
+                                                    class="btn btn-pf-primary export-btn"
+                                                    >
+                                                    {{ 'edit' | translate}}
+                                                </button>  
+                                                </span>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="more">
+                                            <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                                                {{ "more" | translate }}
+                                            </th>
+                                            <td mat-cell *matCellDef="let element" class="text-center">
+                                                <button class="btn border-none" style="margin-top: 5px" (click)="expand2(element)">
+                        <i class="pi pi-chevron-down"></i>
+                      </button>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="expandedDetail2">
+                                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsResume.length">
+                                                <div class="example-element-detail" [@detailExpand]="
+                          element == expandedElement2 ? 'expanded' : 'collapsed'
+                        ">
+                                                    <div class="py-3 w-75 d-block mx-auto more-business">
+                                                        <div class="row">
+
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <div class="field">
+                                                                    <label class="d-block">{{ "actor_type" | translate }}</label>
+                                                                    <input type="text" class="w-100" pInputText readonly value="{{ element.actor_type }}" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                <div class="field">
+                                                                    <label class="d-block">{{ "purchased_volume" | translate }} %</label>
+                                                                    <input type="text" class="w-100" pInputText readonly value="{{ (element.purchased_volume * 100).toFixed(2)}}%" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsResume; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsResume" class="example-element-row" [class.example-expanded-row]="displayedColumnsResume === row"></tr>
+                                        <tr mat-row *matRowDef="let element; columns: ['expandedDetail2']" class="example-detail-row"></tr>
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="4">
+                                                {{ "no_records" | translate }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </cdk-accordion-item>
+                    </cdk-accordion>
+                </div>
+
+
+
+                <div *ngIf="traceability_resume && traceability_resume.length" class="traceability-resume dependencies-container mb-4">
+                    <div class="dependencies-title">Base de suministro H1</div>
+                    <table mat-table multiTemplateDataRows [dataSource]="dataSource" class="table-list-business mb-2">
+                        <ng-container matColumnDef="actor_type">
+                            <th mat-header-cell *matHeaderCellDef width="25%">
+                                {{ "actor_type" | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.actor_type }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="vol_comprado">
+                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                {{ "purchased_volume" | translate }} %
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.vol_comprado }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="estimado_compra">
+                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                {{ "estimado_compra" | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.estimado_compra }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="estimado_validacion">
+                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                {{ "estimado_validacion" | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.estimado_validacion }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="estimado_verificado">
+                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                {{ "estimado_verificado" | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.estimado_verificado }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="estimado_alerta">
+                            <th mat-header-cell *matHeaderCellDef width="15%">
+                                {{ "estimado_alerta" | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element" [ngClass]="">
+                                <span class="d-block truncate-business">
+                  {{ element.estimado_alerta }}
+                </span>
+                                <!-- <span class="d-block font-12 text-pf-secondary truncate-business">
+                  {{ element.nit | translate }}
+                </span> -->
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns" class="example-element-row" [class.example-expanded-row]="displayedColumns === row"></tr>
+                    </table>
+                </div>
+                <div *ngIf="registers" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 animate__animated animate__fadeIn">
+                    <!-- <div class="dependencies-container">
+            <div class="dependencies-title">
+              {{ "porcentaje_compras_tipo_actor" | translate }}
+            </div>
+
+            <div class="row">
+              <div
+                *ngFor="let item of registers"
+                class="col-lg-4 col-md-4 col-sm-4 col-xs-12"
+              >
+                <div class="field">
+                  <label class="d-block"
+                    >{{ item.actor_type__name_es | translate }}
+                  </label>
+                  <div class="input-box-content">
+                    <div class="input-box">
+                      <div class="text-input">{{ item.percentage }}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="border-title d-flex">
+                            {{ "details" | translate }}
+                        </h3>
+                    </div>
+                </div>
+
+                <div *ngIf="data" class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "business_name" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "commodity" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.commodity.name[lang.code] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "actor_type" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.actor_type.name[lang.code] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "country" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.country.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "state" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.region.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "municipality" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.city.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "year" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.register_year }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "period" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.period | periodName | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "purchased_volume" | translate }}
+              </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.purchased_volume }} {{ "tons" | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "latitude" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.latitude }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="field">
+                            <label class="d-block">{{ "longitude" | translate }} </label>
+                            <div class="input-box-content">
+                                <div class="input-box">
+                                    <div class="text-input">
+                                        {{ data.company.longitude }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 order-xs-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="border-title d-flex">
+                                    {{ "geographic_viewer" | translate }}
+                                </h3>
+                            </div>
+                        </div>
+                        <google-map id="map" [options]="options" width="100%" style="border-radius: 27px !important">
+                            <map-marker *ngFor="let item of positionList" #markerElem="mapMarker" [options]="item.markerOptions" (mapClick)="markerDetail(markerElem, item)" [position]="item.position">
+                                <map-info-window>
+                                    <div class="map-info-window">
+                                        <div class="map-info-title">
+                                            <b>{{ markerDataInfo.marker_info }}</b>
+                                            <div *ngIf="data_pattern && markerDataInfo.marker_level == 2">
+                                                <div>{{ "supplier_" | translate }}:</div>
+                                                <div>
+                                                    <b>{{ data_pattern.data.supplier_name }}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div *ngIf="
+                        markerDataInfo.marker_type != 'company' &&
+                        markerDataInfo &&
+                        markerDataInfo.marker_level == 1
+                      ">
+                                            <button *ngIf="supplyBaseL2List.data.length" (click)="showLevel2()" class="btn-level-2 btn btn-pf-primary export-btn">
+                        {{ "view" | translate }}
+                      </button>
+                                        </div>
+                                    </div>
+                                </map-info-window>
+                            </map-marker>
+                        </google-map>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="data-leyenda">
+                            <div class="leyenda-info">
+                                <div class="point type-1">
+                                    <div class="point-center"></div>
+                                </div>
+                                <div class="text">
+                                    {{ "company" | translate }}
+                                </div>
+                            </div>
+                            <div class="leyenda-info">
+                                <div class="point type-2">
+                                    <div class="point-center"></div>
+                                </div>
+                                <div class="text cell" title="Leve 1">
+                                    {{ "supply_base" | translate }}
+                                </div>
+                            </div>
+                            <div class="leyenda-info">
+                                <div class="point type-3">
+                                    <div class="point-center"></div>
+                                </div>
+                                <div class="text cell" title="Leve 2">
+                                    {{ "supply_base" | translate }} 2
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="display2" [modal]="true" [breakpoints]="{'960px': '95vw'}" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'update' | translate}}</b></h3>
+        </div>
+    </div>
+    <!-- <form autocapitalize="off" (ngSubmit)="update()" [formGroup]="formUpdate"> -->
+
+    <div class="row" *ngIf="dataPor">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="field">
+                <label class="d-block">{{'actor_type' | translate}}</label>
+                <input id="actor_type" readonly class="w-100" [(ngModel)]="dataPor.actor_type" type="text" [placeholder]="'actor_type'| translate" pInputText/>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="field">
+                <label class="d-block">{{'percentage' | translate}}</label>
+                <input id="percentage" class="w-100" [(ngModel)]="tempPercentage" type="text" [placeholder]="'percentage' | translate" pInputText/>
+            </div>
+        </div>
+
+        <ng-container *ngIf="!loading; else load">
+            <div class="col-6">
+                <button class="btn btn-cancel w-100" (click)="closeDelete()"> {{'cancel' | translate}} </button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-pf-primary w-100 h-100" (click)="sendData()"> {{'update' | translate}} </button>
+            </div>
+        </ng-container>
+        <ng-template #load>
+            <span class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+        </ng-template>
+    </div>
+    <!-- </form> -->
+
+</p-dialog>
+<!-- <p-dialog [(visible)]="displayUpdate" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+  <div class="row text-center">
+      <div class="col-12">
+          <h3 class="text-center"><b> {{'update_success' | translate}} </b></h3>
+          <p>{{'description_update_success' | translate}}</p>
+      </div>
+      <div class="col-12">
+          <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+      </div>
+      <div class="col-12 pt-4">
+          <button class="btn btn-pf-primary p-btn" (click)="displayUpdate=false"> {{'accept' | translate}} </button>
+      </div>
+  </div>
+
+</p-dialog> -->

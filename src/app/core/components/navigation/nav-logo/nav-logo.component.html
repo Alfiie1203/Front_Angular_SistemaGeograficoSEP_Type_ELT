@@ -1,0 +1,12 @@
+<div class="navbar-brand header-logo">
+    <a [routerLink]="['/dashboard/default/']" class="b-brand">
+        <img src="assets/images/logo-full.png" style="width: 80%" alt="">
+    </a>
+    <a href="javascript:" class="mobile-menu" [ngClass]="{'on' : navCollapsed}" id="mobile-collapse" (click)="navCollapse()"><span></span></a>
+</div>
+<div class="navbar-brand-mobile header-logo">
+    <a href="javascript: void(0);" class="b-brand">
+        <img src="assets/images/logo-full.png" style="width: 80%" alt="">
+    </a>
+    <a href="javascript:" class="mobile-menu on" id="mobile-collapse-mobile" (click)="navCollapseMobile()"><span></span></a>
+</div>

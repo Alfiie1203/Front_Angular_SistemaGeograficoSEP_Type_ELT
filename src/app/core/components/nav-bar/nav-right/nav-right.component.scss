@@ -1,0 +1,21 @@
+.rol_bg{
+    background-color: rgba(0, 167, 176, 0.09);
+    border-radius: 17px;
+    color: var(--pf-blue);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+:host ::ng-deep {
+    .p-dropdown:not(.p-disabled):hover{
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .p-dropdown:not(.p-disabled).p-focus{
+        border: none !important;
+        box-shadow: none !important;
+    }
+}

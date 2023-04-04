@@ -1,0 +1,130 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="'delete_company' | translate | changeTitle"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-10">
+                        <span class="p-input-icon-left w-100">
+                            <i class="pi pi-search" style="color: var(--pf-blue);"></i>
+                            <input type="text" [(ngModel)]="textSearch" class="w-100" style="padding-left: 2.5rem !important; border-radius: 26px !important;" pInputText [placeholder]="'search' | translate" />
+                        </span>
+                    </div>
+                    <div class="col-2">
+                        <ng-container *ngIf="!loading; else load">
+                            <button class="btn btn-pf-primary w-100" (click)="search()" type="button"> <img width="15px" class="btn-img" src="assets/images/search.png" alt=""> </button>
+                        </ng-container>
+                        <ng-template #load>
+                            <span class="spinner-grow text-pf-primary d-block mx-auto" tyle="width: 1.5rem; height: 1.5rem;"></span>
+                        </ng-template>
+                    </div>
+                </div>
+                <ng-container *ngIf="showDetail">
+                    <div class="row pt-3 animate__animated animate__fadeIn">
+                        <div class="col-12">
+                            <h3 class="border-title d-flex">
+                                {{'data' | translate}}
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'nit' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.nit}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'name' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.name}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'business_group' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.company_group!=null?dataCompany.company_group.name:'no_description' | translate}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'type_actor' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.actor_type.name[lang.code]}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'id_global_business' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.identifier_global_company}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'id_proforest_business' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.identifier_proforest_company}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'country' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.country.name}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'state' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.region.name}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'municipality' | translate}}</label>
+                                    <input type="text" class="w-100" pInputText readonly value="{{dataCompany.city.name}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mx-auto">
+                            <button class="btn btn-outline-danger w-100" (click)="delete()">
+                                {{ "delete" | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayDelete" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'delete_success' | translate}} </b></h3>
+            <p>{{'description_delete_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="reset()"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>

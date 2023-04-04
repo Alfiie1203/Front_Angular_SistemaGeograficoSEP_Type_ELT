@@ -1,0 +1,202 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10" [innerHtml]="'supply_base' | translate | changeTitle"></h2>
+                    <button *ngIf="permissionAdd" class="btn btn-pf-primary more-btn ml-auto" [routerLink]="'/supply-base/create'">
+            <img
+              src="assets/images/more.png"
+              width="20px"
+              class="btn-img cursor-pointer"
+              alt=""
+            />
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row container-search">
+                    <div class="box-search col-md-4">
+                        <span class="p-input-icon-left w-100 w-search-list">
+              <i class="pi pi-search" style="color: var(--pf-blue)"></i>
+              
+                <input
+                type="text"
+                [(ngModel)]="textSearch"
+                (keyup)="applyFilter()"
+                class="w-100"
+                style="
+                  padding-left: 2.5rem !important;
+                  border-radius: 26px !important;
+                "
+                pInputText
+                [placeholder]="'search' | translate"
+              />
+            </span>
+                    </div>
+
+                    <div class="box-search col-md-4">
+                        <span class="p-input-icon-left w-100 w-search-list">
+              <div class="search-calendar">
+                <p-calendar
+                      id="year"
+                      [(ngModel)]="year"
+                      (ngModelChange)="applyFilterYear()"
+                      view="year"
+                      dateFormat="yy"
+                      inputId="yearpicker"
+                      [placeholder]="'year' | translate"
+                      [showClear]="true"
+                      (onClear)="clearYear()"
+                    ></p-calendar>
+              </div>
+            </span>
+                    </div>
+                    <div class="box-search col-md-4">
+                        <span class="p-input-icon-left w-100 w-search-list">
+              <p-dropdown
+                  id="listPeriod"
+                  [options]="listPeriod"
+                  optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
+                  [placeholder]="'period' | translate"
+                  [autoDisplayFirst]="false"
+                  [(ngModel)]="periodo"
+                  (onChange)="applyFilterPeriod()"
+                  [showClear]="true"
+                  
+                >
+                  <ng-template pTemplate="selectedItem">
+                    <div
+                      class="country-item country-item-value"
+                      *ngIf="periodo"
+                    >
+                      <div>
+                        {{ periodo.name | translate }}
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template let-period pTemplate="item">
+                    <div class="country-item">
+                      <div>{{ period.name | translate }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+            </span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="example-container position-relative">
+                <app-load-table></app-load-table>
+                <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="table-list-business">
+                    <ng-container matColumnDef="company_name">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center">
+                            {{ "business_name" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{ row.company.name }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="register_year">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{ 'register_year' | translate }}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{row.register_year}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="period">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{ 'period' | translate }} </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{ getPeriodById(row.period) | translate }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="purchased_volume">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{ 'purchased_volume' | translate }}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{ row.purchased_volume }} TON.
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef width="10%" class="text-center"> {{ 'action' | translate }} </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <button *ngIf="!row.has_data_traceability" style="margin:4px;padding: 4px 14px;" [style]="{'background':'#ae4848'}" class="btn btn-pf-primary export-btn">
+                  {{ 'no_traceability' | translate}}
+              </button>
+
+                            <button *ngIf="row.has_data_traceability" style="margin:4px;padding: 4px 14px;" (click)="viewDetails(row.id)" class="btn btn-pf-primary export-btn">
+                  {{ 'view' | translate}}
+              </button>
+                            <button *ngIf="row.has_resume" style="margin:4px;padding: 4px 14px;" (click)="viewResumen(row.id)" class="btn btn-pf-primary export-btn">
+                  {{ 'resumen' | translate}}
+              </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                            {{ "more" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button class="btn border-none" style="margin-top: 5px" (click)="expand(element)">
+    <i class="pi pi-chevron-down"></i>
+  </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail" [@detailExpand]="
+      element == expandedElement ? 'expanded' : 'collapsed'
+    ">
+                                <div class="py-3 w-75 d-block mx-auto more-business">
+                                    <div class="row">
+
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{ "register_year" | translate }}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{ element.register_year }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{ "period" | translate }}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{ getPeriodById(element.period) | translate }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{ "purchased_volume" | translate }}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{  element.purchased_volume }} TON. " />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="example-element-row" [class.example-expanded-row]="displayedColumns === row"></tr>
+                    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">
+                            {{ "no_records" | translate }}
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+</div>

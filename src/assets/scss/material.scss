@@ -1,0 +1,65 @@
+// .table-list-business{
+//     thead{
+//         display: none !important;
+//     }
+// }
+
+.mat-table{
+    background: transparent !important;
+}
+
+.mat-paginator-page-size-label{
+    visibility: hidden;
+    position: relative;
+}
+// .mat-paginator-page-size-label::after{
+//     visibility: visible;
+//     content: 'Items por página';
+// }
+
+.mat-checkbox-frame{
+    border-radius: 50% !important;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #00A7B0 !important;
+    border-radius: 50% !important;
+}
+
+.mat-row:hover {
+    background-color: rgba(0, 167, 176, 0.09) !important;
+}
+
+.mat-sort-header-pointer-left, .mat-sort-header-pointer-right {
+    background: var(--pf-blue) !important;
+}
+
+.mat-sort-header-stem {
+    background: none !important;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: var(--pf-blue) !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: var(--pf-blue) !important;
+}
+
+.mat-table thead {
+    background: #fff !important;
+}
+
+.mat-paginator{
+    border-radius: 0px 0px 42px 42px !important;
+}
+
+
+.mat-ripple-element {
+    background-color: rgba(0, 167, 176, 0.9) !important;
+}
+
+.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+    color: var(--pf-blue) !important;
+}
+

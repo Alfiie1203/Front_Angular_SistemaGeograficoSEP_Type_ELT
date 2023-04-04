@@ -1,0 +1,375 @@
+<div class="page-header animate__animated animate__fadeIn">
+  <div class="page-block">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <div class="page-header-title">
+          <button
+            class="btn btn-pf-primary me-2"
+            type="button"
+            (click)="location.back()"
+            style="margin-bottom: 0.5rem"
+          >
+            <img
+              src="assets/images/back.svg"
+              class="btn-img"
+              width="20px"
+              alt=""
+            />
+          </button>
+          <h2
+            class="m-b-10"
+            [innerHtml]="'supply_base' | translate | changeTitle"
+          ></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-4 animate__animated animate__fadeIn">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <h3 *ngIf="SCENARIO == 'create'" class="border-title d-flex">
+              {{ "supply_base_register" | translate }}
+            </h3>
+            <h3 *ngIf="SCENARIO == 'update'" class="border-title d-flex">
+              {{ "supply_base_update" | translate }}
+            </h3>
+          </div>
+        </div>
+
+        <div *ngIf="SCENARIO" class="form-container">
+          <form autocomplete="off" (ngSubmit)="register()" [formGroup]="form">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="field">
+                  <label class="d-block"
+                    >{{ "created_by" | translate }}
+                    <span class="text-danger">*</span></label
+                  >
+                  <input
+                    id="user_report"
+                    formControlName="user_report"
+                    list="codes_user_report"
+                    class="w-100"
+                    type="text"
+                    [placeholder]="'created_by' | translate"
+                    [readOnly]="true"
+                    [ngClass]="{
+                      'ng-invalid ng-dirty':
+                        f['user_report'].invalid && f['user_report'].touched
+                    }"
+                    pInputText
+                    (focusout)="setDatalistReport($event)"
+                  />
+                  <!------data list-------->
+                  <!------data list-------->
+                  <!------error validations-------->
+                  <div
+                    *ngIf="
+                      f['user_report'].invalid &&
+                      f['user_report'].touched &&
+                      f['user_report'].errors != null
+                    "
+                    class="text-danger ps-2 pt-1 font-12"
+                  >
+                    <small
+                      id="password-help"
+                      *ngIf="f['user_report'].errors['required']"
+                      class="block"
+                      >{{ "required_field" | translate }}</small
+                    >
+                  </div>
+                  <!------error validations-------->
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="field">
+                  <label class="d-block"
+                    >{{ "company" | translate }}
+                    <span class="text-danger">*</span></label
+                  >
+                  <input
+                    id="company"
+                    [readOnly]="(role.name == 'CLIENTE'?true:false)"
+                    formControlName="company"
+                    list="codes_company"
+                    class="w-100"
+                    type="text"
+                    [placeholder]="'company' | translate"
+                    [ngClass]="{
+                      'ng-invalid ng-dirty':
+                        f['company'].invalid && f['company'].touched
+                    }"
+                    pInputText
+                    (focusout)="setDatalistReport($event)"
+                  />
+                  <!------data list-------->
+                  <datalist id="codes_company">
+                    <option
+                      *ngFor="let c of empresasListReport"
+                      [value]="c.name"
+                    >
+                      {{ c.name }} - {{ c.nit }}
+                    </option>
+                  </datalist>
+                  
+                  <!------data list-------->
+                  <!------error validations-------->
+                  <div
+                    *ngIf="
+                      f['company'].invalid &&
+                      f['company'].touched &&
+                      f['company'].errors != null
+                    "
+                    class="text-danger ps-2 pt-1 font-12"
+                  >
+                    <small
+                      id="password-help"
+                      *ngIf="f['company'].errors['required']"
+                      class="block"
+                      >{{ "required_field" | translate }}</small
+                    >
+                  </div>
+                  <!------error validations-------->
+                </div>
+              </div>
+
+              <div
+                *ngIf="validateCompany"
+                class="col-lg-12 col-md-12 col-sm-12 col-xs-12 animate__animated animate__fadeIn"
+              >
+                <div class="dependencies-container">
+                  <div class="dependencies-title">
+                    Indique porcentaje de compras por Tipo de Actor
+                  </div>
+                  
+                  <div *ngFor="let item of dependenciesData" class="row">
+                    <div
+                      *ngFor="
+                        let data of item.actor_type_dependency;
+                        let i = index
+                      "
+                      class="col-lg-4 col-md-4 col-sm-12 col-xs-4"
+                    >
+                      <!-- <div class="dependencies-box "> -->
+                      <div>
+                        <div class="field">
+                          <label class="d-block"
+                            >{{ data.name[lang.code] }}
+                            <span class="text-danger">*</span></label
+                          >
+                          <input
+                            id="actor_type-{{ data.id }}"
+                            mask="separator.2"
+                            suffix="%"
+                            (keyup)="actorTypeKeyUp($event, data.id)"
+                            [placeholder]="'%' | translate"
+                            [ngClass]="{
+                              'ng-invalid ng-dirty':
+                              actorTypeData[i].touched && actorTypeData[i].error
+                            }"
+                            type="text"
+                            pInputText
+                          />
+                          <!------data list-------->
+
+                          <!------data list-------->
+                          <!------error validations-------->
+                          <div
+                            *ngIf="
+                            actorTypeData[i].touched && actorTypeData[i].error
+                            "
+                            class="text-danger ps-2 pt-1 font-12"
+                          >
+                            <small
+                              id="password-help-{{ data.id }}"
+                              *ngIf="actorTypeData[i].error"
+                              class="block"
+                              >{{ actorTypeData[i].error | translate }}</small
+                            >
+                          </div>
+                          <!------error validations-------->
+                        </div>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="field">
+                  <label class="d-block"
+                    >{{ "year" | translate }}
+                    <span class="text-danger">*</span></label
+                  >
+                  <p-calendar
+                    id="year"
+                    formControlName="year"
+                    view="year"
+                    dateFormat="yy"
+                    inputId="yearpicker"
+                    [placeholder]="'year' | translate"
+                  ></p-calendar>
+                  <div
+                    *ngIf="
+                      f['year'].invalid &&
+                      f['year'].touched &&
+                      f['year'].errors != null
+                    "
+                    class="text-danger ps-2 pt-1 font-12"
+                  >
+                    <small
+                      id="password-help"
+                      *ngIf="f['year'].errors['required']"
+                      class="block"
+                      >{{ "required_field" | translate }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="field">
+                  <label class="d-block"
+                    >{{ "period" | translate }}
+                    <span class="text-danger">*</span></label
+                  >
+                  <p-dropdown
+                    id="listPeriod"
+                    formControlName="period"
+                    [options]="listPeriod"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="name"
+                    [placeholder]="'period' | translate"
+                    [autoDisplayFirst]="false"
+                    [ngClass]="{
+                      'ng-invalid ng-dirty':
+                        f['period'].invalid && f['period'].touched
+                    }"
+                  >
+                    <ng-template pTemplate="selectedItem">
+                      <div
+                        class="country-item country-item-value"
+                        *ngIf="form.get('period')"
+                      >
+                        <div>
+                          {{ form.get("period")?.value.name | translate }}
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template let-period pTemplate="item">
+                      <div class="country-item">
+                        <div>{{ period.name | translate }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                  <div
+                    *ngIf="
+                      f['period'].invalid &&
+                      f['period'].touched &&
+                      f['period'].errors != null
+                    "
+                    class="text-danger ps-2 pt-1 font-12"
+                  >
+                    <small
+                      id="password-help"
+                      *ngIf="f['period'].errors['required']"
+                      class="block"
+                      >{{ "required_field" | translate }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="field">
+                  <label class="d-block"
+                    >{{ "purchased_volume" | translate }}
+                    <span class="text-danger">*</span></label
+                  >
+                  <input
+                    id="purchased_volume"
+                    formControlName="purchased_volume"
+                    class="w-100"
+                    type="text"
+                    [placeholder]="'tons' | translate"
+                    [ngClass]="{
+                      'ng-invalid ng-dirty':
+                        f['purchased_volume'].invalid &&
+                        f['purchased_volume'].touched
+                    }"
+                    pInputText
+                    
+                  />
+                  <!------error validations-------->
+                  <div
+                    *ngIf="
+                      f['purchased_volume'].invalid &&
+                      f['purchased_volume'].touched &&
+                      f['purchased_volume'].errors != null
+                    "
+                    class="text-danger ps-2 pt-1 font-12"
+                  >
+                    <small
+                      id="purchased_volume-help"
+                      *ngIf="f['purchased_volume'].errors['required']"
+                      class="block"
+                      >{{ "required_field" | translate }}</small
+                    >
+                    <small
+                      id="purchased_volume-help-2"
+                      *ngIf="f['purchased_volume'].errors['floatNumber']"
+                      class="block"
+                      >{{ f['purchased_volume'].errors['floatNumber.text'] | translate }}</small
+                    >
+                    <small
+                      id="purchased_volume-help-3"
+                      *ngIf="f['purchased_volume'].errors['maxPercent']"
+                      class="block"
+                      >{{ f['purchased_volume'].errors['maxPercent.text'] | translate }}</small
+                    >
+                  </div>
+                  <!------error validations-------->
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button
+                  [disabled]="!validateButtonSave"
+                  [ngClass]="
+                    validateButtonSave
+                      ? 'btn btn-pf-primary p-btn'
+                      : 'btn btn-pf-primary p-btn btn-disabled'
+                  "
+                  type="submit"
+                >
+                  <img
+                    src="assets/images/save.png"
+                    class="me-2 btn-img"
+                    width="20px"
+                    alt=""
+                  />
+                  {{
+                    (SCENARIO && SCENARIO == "create" ? "register" : "update")
+                      | translate
+                  }}
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- <p-autoComplete [(ngModel)]="empresaName" [suggestions]="testEmpresasListReport" (completeMethod)="filterCompany($event)" (onBlur)="getdata()" (onSelect)="setEmpresa($event)" field="name" >
+            <ng-template let-data pTemplate="item">
+                <div  class="country-item">
+                    <div>{{data.name}}</div>
+                </div>
+            </ng-template>
+        </p-autoComplete> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

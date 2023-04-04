@@ -1,0 +1,690 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h2 class="m-b-10">{{ 'validar_coordenadas_trazabilidad' | translate }}</h2>
+                    <button class="btn btn-pf-primary ml-auto" routerLink="/geographic-information/validate-traceability/resume-validate-traceability">
+                      {{'resume' | translate}}
+                  </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+        <!-- <button class="btn btn-pf-primary" (click)="location.back()">
+      <img src="assets/images/back.svg" class="btn-img" width="20px" alt="" />
+    </button> -->
+        <div class="row">
+            <div class="col-12 font-24">
+                <img src="assets/images/filter.png" class="me-4" style="vertical-align: initial;" alt=""> {{'filter' | translate}}
+            </div>
+            <div class="col-12">
+                <p-accordion [multiple]="true" styleClass="filter-business" expandIcon="pi pi-plus-circle" collapseIcon="pi pi-minus-circle">
+                    <p-accordionTab [header]="'period'| translate">
+                        <ul class="filter-list mb-0">
+                            <ng-container *ngIf="listPeriod.length==0; else nolistPeriod">
+                                <li>{{'no_records' | translate}}</li>
+                            </ng-container>
+                            <ng-template #nolistPeriod>
+                                <li *ngFor="let period of listPeriod" class="cursor-pointer" [ngClass]="{'text-pf-primary': periodo&&periodo.id==period.id}" (click)="applyFilterPeriod(period)">{{period.name | translate}}</li>
+                            </ng-template>
+                        </ul>
+                    </p-accordionTab>
+                    <!-- <p-accordionTab [header]="'commodity' | translate">
+                    <ul class="filter-list mb-0">
+                        <ng-container *ngIf="listCommodity&&listCommodity.length==0; else nolistCommodity">
+                            <li>{{'no_records' | translate}}</li>
+                        </ng-container>
+                        <ng-template #nolistCommodity>
+                            <li *ngFor="let comm of listCommodity" class="cursor-pointer" [ngClass]="{'text-pf-primary': commodity&&commodity.id==comm.id}" (click)="searchCommodity(comm)">{{comm.name[lang.code]}}</li>
+                        </ng-template>
+                    </ul>
+                </p-accordionTab>
+                <p-accordionTab [header]="'type_actor' | translate">
+                    <ul class="filter-list mb-0">
+                        <ng-container *ngIf="listActorType&&listActorType.length==0; else nolistActorType">
+                            <li>{{'no_records' | translate}}</li>
+                        </ng-container>
+                        <ng-template #nolistActorType>
+                            <li *ngFor="let actor of listActorType" class="cursor-pointer" [ngClass]="{'text-pf-primary': actor_type&&actor_type.id==actor.id}" (click)="searchActorType(actor)">{{actor.name[lang.code]}}</li>
+                        </ng-template>
+                    </ul>
+                </p-accordionTab>-->
+                    <p-accordionTab [header]="'status_validate' | translate">
+                        <ul class="filter-list mb-0">
+                            <ng-container *ngIf="listStatusRevision&&listStatusRevision.length==0; else nolistStatusRevision">
+                                <li>{{'no_records' | translate}}</li>
+                            </ng-container>
+                            <ng-template #nolistStatusRevision>
+                                <li *ngFor="let status of listStatusRevision" class="cursor-pointer" [ngClass]="{'text-pf-primary': status_revision&&status_revision.id==status.id}" (click)="searchStatusRevision(status)">{{status.name | translate}}</li>
+                            </ng-template>
+                        </ul>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </div>
+        <div class="data-validated mt-2 mb-2">
+            <div class="row">
+                <div class="font-12 fw-bold">
+                    <div class="ps-1 validate-percent" style="
+              border-left: 10px solid #ff5e61;
+              border-top-left-radius: 9px;
+              border-bottom: 0.1rem solid rgba(0, 0, 0, 0.05); ;
+            ">
+                        {{ "no_validate" | translate }}
+
+                        <div class="porcent-form py-1 me-2">
+                            <div id="middle-circle">
+                                {{listData?listData.porcentaje_no_validadas:0}}%
+                            </div>
+                            <div *ngIf="listData" id="progress-spinner" [ngStyle]="{'background':'conic-gradient(var(--pf-blue)'+listData.porcentaje_no_validadas+'%,rgb(242, 242, 242)'+listData.porcentaje_no_validadas+'%)'}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="font-12 fw-bold">
+                    <div class="ps-1 validate-percent" style="
+              border-left: 10px solid #4b5897;
+              border-bottom: 0.1rem solid rgba(0, 0, 0, 0.05); ;
+            ">
+                        {{ "sin_validar" | translate }}
+                        <div class="porcent-form py-1 me-2">
+                            <div id="middle-circle">
+                                {{listData?listData.porcentaje_sin_revisar:0}}%
+                            </div>
+                            <div *ngIf="listData" id="progress-spinner" [ngStyle]="{'background':'conic-gradient(var(--pf-blue)'+listData.porcentaje_sin_revisar+'%,rgb(242, 242, 242) '+listData.porcentaje_sin_revisar+'%)'}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="font-12 fw-bold">
+                    <div class="ps-1 validate-percent" style="
+              border-left: 10px solid #00a7b0;
+              border-bottom-left-radius: 9px;
+            ">
+                        {{ "VALIDATE" | translate }}
+                        <div class="porcent-form py-1 me-2">
+                            <div id="middle-circle">
+                                {{listData?listData.porcentaje_validadas:0}}%
+                            </div>
+                            <div *ngIf="listData" id="progress-spinner" [ngStyle]="{'background':'conic-gradient(var(--pf-blue)'+listData.porcentaje_validadas+'%,rgb(242, 242, 242) '+listData.porcentaje_validadas+'%)'}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+            </div>
+            <app-load-table></app-load-table>
+
+            <div class="example-container position-relative">
+                <div class="row container-search">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                            <div class="row">
+                                <div class="box-search col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                                    <span class="p-input-icon-left w-100 w-search-list">
+                          <p-dropdown
+                            id="list_companies"
+                            [options]="list_companies"
+                            optionLabel="name_company"
+                            [filter]="true"
+                            filterBy="name_company"
+                            [placeholder]="'business_name' | translate"
+                            [autoDisplayFirst]="false"
+                            [(ngModel)]="selected_company"
+                            (onChange)="applyFilterCompanies()"
+                            [showClear]="true"
+                            [disabled]="idCompany"
+                          >
+                            <ng-template pTemplate="selectedItem">
+                              <div
+                                class="country-item country-item-value"
+                                *ngIf="selected_company"
+                              >
+                                <div>
+                                  {{ selected_company.name_company}}
+                                </div>
+                              </div>
+                            </ng-template>
+                            <ng-template let-company pTemplate="item">
+                              <div class="country-item">
+                                <div>{{ company.name_company}}</div>
+                              </div>
+                            </ng-template>
+                          </p-dropdown>
+                        </span>
+                                </div>
+
+                                <div class="box-search col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                                    <span class="p-input-icon-left w-100 w-search-list">
+                              <div class="search-calendar">
+                                <p-calendar
+                                      id="year"
+                                      [(ngModel)]="year"
+                                      (ngModelChange)="applyFilterYear()"
+                                      view="year"
+                                      dateFormat="yy"
+                                      inputId="yearpicker"
+                                      [placeholder]="'year' | translate"
+                                      [showClear]="true"
+                                      (onClear)="clearYear()"
+                                    ></p-calendar>
+                              </div>
+                            </span>
+                                </div>
+
+                                <div class="box-search col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                                    <span class="p-input-icon-left w-100 w-search-list">
+                              <input id="start_date" [(ngModel)]="start_date" (change)="aplyStartDate()" class="w-100" type="date" [placeholder]="'start_date' | translate" pInputText/>
+                            </span>
+                                </div>
+                                <div class="box-search col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                                    <span class="p-input-icon-left w-100 w-search-list">
+                              <input id="end_date" [(ngModel)]="end_date" (change)="aplyEndDate()" class="w-100" type="date" [placeholder]="'end_date' | translate" pInputText/>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mb-2   d-flex align-items-center">
+                            <button class="btn btn-pf-primary w-100 chang-clear" (click)="clear()" type="button">
+                      <img width="15px" class="btn-img" src="assets/images/times.png" alt=""/>
+                  </button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <table mat-table multiTemplateDataRows [dataSource]="dataSource" class="table-list-business">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef width="30%">
+                            {{ "reported_company" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element" [ngClass]="'status-verify '+(element.status_revision?'status-'+element.status_revision.toLowerCase():'')">
+                            <span class="d-block">
+                {{ element.reported_company }} <i *ngIf="(company && company.id == element.id)" class="pi pi-check"></i> 
+              </span>
+                            <span class="d-block font-12 text-pf-secondary">
+                {{ element.nit | translate }}
+              </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="supplier_company">
+                        <th mat-header-cell *matHeaderCellDef width="30%">
+                            {{ "supplier_company" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="d-block truncate-business">
+                {{ element.supplier_company }}
+              </span>
+                            <span class="d-block font-12 text-pf-secondary truncate-business">
+                {{ element.nit | translate }}
+              </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="deadline">
+                        <th mat-header-cell *matHeaderCellDef width="30%">
+                            {{ "deadline" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="d-block truncate-business">
+                {{ element.start_date_validation }} / {{element.end_date_validation}}
+              </span>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef width="20%">
+                            {{ "action" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.can_update; else noUpdate">
+                                <button (click)="setCompany(element)" class="btn btn-pf-primary export-btn">
+
+                <ng-container [ngSwitch]="element.status_revision">
+                    <ng-template [ngSwitchCase]="'VA'">{{actionBtnActz}}</ng-template>
+                    <ng-template [ngSwitchCase]="'VE'">{{actionBtnVer}}</ng-template>
+                    <ng-template [ngSwitchDefault]>{{actionBtnV}}</ng-template>
+                    
+                </ng-container>
+
+                  <!-- {{ (element.status_revision == "VA"  ? actionBtnActz : actionBtnV ) }} -->
+                </button>
+                            </div>
+                            <ng-template #noUpdate>
+                                {{'date_limite' | translate}}
+                            </ng-template>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef width="1%" class="text-center">
+                            {{ "more" | translate }}
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <button class="btn border-none" style="margin-top: 5px" (click)="expand(element)">
+              <i class="pi pi-chevron-down"></i>
+            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail" [@detailExpand]="
+                element == expandedElement ? 'expanded' : 'collapsed'
+              ">
+                                <div class="py-3 w-75 d-block mx-auto more-business">
+                                    <div class="row">
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{ "supplier_company" | translate }}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{ element.supplier_company }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field">
+                                                <label class="d-block">{{ "deadline" | translate }}</label>
+                                                <input type="text" class="w-100" pInputText readonly value="{{ element.start_date_validation }} / {{element.end_date_validation}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="example-element-row" [class.example-expanded-row]="displayedColumns === row"></tr>
+                    <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">
+                            {{ "no_records" | translate }}
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator (page)="paginationChangeSize($event)" [length]="listSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+            </div>
+        </div>
+        <div [hidden]="!company" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="border-title">
+                                {{ "data" | translate }}: {{ company ? company.supplier_company +" - "+ company.id : "" }}
+                            </h4>
+                        </div>
+                        <div *ngIf="company" class="row">
+                            <form [formGroup]="form">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="field">
+                                            <label class="d-block">{{ "country" | translate }}
+                        <span class="text-danger">*</span></label
+                      >
+                      <p-dropdown
+                        id="country"
+                        formControlName="listCountry"
+                        [options]="listCountry"
+                        optionLabel="name"
+                        [filter]="true"
+                        filterBy="name"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            f['listCountry'].invalid && f['listCountry'].touched
+                        }"
+                        [disabled]="(!is_productor)"
+                        [placeholder]="'selected_country' | translate"
+                        [autoDisplayFirst]="false"
+                        (onChange)="getListRegions(form.value.listCountry.id)"
+                      >
+                        <ng-template pTemplate="selectedItem">
+                          <div
+                            class="country-item country-item-value"
+                            *ngIf="form.get('listCountry')"
+                          >
+                            <div>{{ form.get("listCountry")?.value.name }}</div>
+                          </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="item">
+                          <div class="country-item">
+                            <div>{{ country.name }}</div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          f['listCountry'].invalid &&
+                          f['listCountry'].touched &&
+                          f['listCountry'].errors != null
+                        "
+                        class="text-danger ps-2 pt-1 font-12"
+                      >
+                        <small
+                          id="password-help"
+                          *ngIf="f['listCountry'].errors['required']"
+                          class="block"
+                          >{{ "required_field" | translate }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="field">
+                      <label class="d-block"
+                        >{{ "state" | translate }}
+                        <span class="text-danger">*</span></label
+                      >
+                      <p-dropdown
+                        id="state"
+                        formControlName="listRegion"
+                        [options]="listRegions"
+                        optionLabel="name"
+                        [filter]="true"
+                        filterBy="name"
+                        [disabled]="(!is_productor)"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            f['listRegion'].invalid && f['listRegion'].touched
+                        }"
+                        [placeholder]="'selected_state' | translate"
+                        [autoDisplayFirst]="false"
+                        (onChange)="
+                          getListCities(
+                            form.value.listCountry.id,
+                            form.value.listRegion.id
+                          )
+                        "
+                      >
+                        <ng-template pTemplate="selectedItem">
+                          <div
+                            class="country-item country-item-value"
+                            *ngIf="form.get('listRegion')"
+                          >
+                            <div>{{ form.get("listRegion")?.value.name }}</div>
+                          </div>
+                        </ng-template>
+                        <ng-template let-region pTemplate="item">
+                          <div class="country-item">
+                            <div>{{ region.name }}</div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          f['listRegion'].invalid &&
+                          f['listRegion'].touched &&
+                          f['listRegion'].errors != null
+                        "
+                        class="text-danger ps-2 pt-1 font-12"
+                      >
+                        <small
+                          id="password-help"
+                          *ngIf="f['listRegion'].errors['required']"
+                          class="block"
+                          >{{ "required_field" | translate }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="field">
+                      <label class="d-block"
+                        >{{ "municipality" | translate }}
+                        <span class="text-danger">*</span></label
+                      >
+                      <p-dropdown
+                        id="municipality"
+                        formControlName="listCity"
+                        [options]="listCities"
+                        optionLabel="name"
+                        [filter]="true"
+                        filterBy="name"
+                        [disabled]="(!is_productor)"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            f['listCity'].invalid && f['listCity'].touched
+                        }"
+                        [placeholder]="'selected_municipality' | translate"
+                        [autoDisplayFirst]="false"
+                        (onChange)="locationCity($event)"
+                      >
+                        <ng-template pTemplate="selectedItem">
+                          <div
+                            class="country-item country-item-value"
+                            *ngIf="form.get('listCity')"
+                          >
+                            <div>{{ form.get("listCity")?.value.name }}</div>
+                          </div>
+                        </ng-template>
+                        <ng-template let-city pTemplate="item">
+                          <div class="country-item">
+                            <div>{{ city.name }}</div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                      <div
+                        *ngIf="
+                          f['listCity'].invalid &&
+                          f['listCity'].touched &&
+                          f['listCity'].errors != null
+                        "
+                        class="text-danger ps-2 pt-1 font-12"
+                      >
+                        <small
+                          id="password-help"
+                          *ngIf="f['listCity'].errors['required']"
+                          class="block"
+                          >{{ "required_field" | translate }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="field">
+                      <label class="d-block"
+                        >{{ "latitude" | translate }}
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        id="latitude"
+                        formControlName="latitude"
+                        (change)="setCoordinates()"
+                        [readonly]="(!is_productor)"
+                        class="w-100"
+                        type="text"
+                        [placeholder]="'latitude' | translate"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            f['latitude'].invalid && f['latitude'].touched
+                        }"
+                        pInputText
+                      />
+                      <div *ngIf="f['latitude'].invalid && f['latitude'].touched && f['latitude'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="password-help" *ngIf="f['latitude'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="password-help" *ngIf="f['latitude'].errors['pattern']" class="block">{{'selected_lat_lng' | translate}}</small>
+                                </div>
+                    </div>
+                  </div>
+      
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="field">
+                      <label class="d-block"
+                        >{{ "longitude" | translate }}
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        id="longitude"
+                        formControlName="longitude"
+                        (change)="setCoordinates()"
+                        [readonly]="(!is_productor)"
+                        class="w-100"
+                        type="text"
+                        [placeholder]="'longitude' | translate"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            f['longitude'].invalid && f['longitude'].touched
+                        }"
+                        pInputText
+                      />
+                     <div *ngIf="f['longitude'].invalid && f['longitude'].touched && f['longitude'].errors!=null" class="text-danger ps-2 pt-1 font-12">
+                                    <small id="password-help" *ngIf="f['longitude'].errors['required']" class="block">{{'required_field' | translate}}</small>
+                                    <small id="password-help" *ngIf="f['longitude'].errors['pattern']" class="block">{{'selected_lat_lng' | translate}}</small>
+                                </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              
+              <!-- <div class="no-editable-form row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="field">
+                  <label class="d-block">{{ "country" | translate }} </label>
+                                            <div class="input-box-content">
+                                                <div class="input-box">
+                                                    <div class="text-input">
+                                                        {{ company.country.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="field">
+                                            <label class="d-block">{{ "state" | translate }} </label>
+                                            <div class="input-box-content">
+                                                <div class="input-box">
+                                                    <div class="text-input">
+                                                        {{ company.region.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="field">
+                                            <label class="d-block">{{ "municipality" | translate }}
+                    </label>
+                                            <div class="input-box-content">
+                                                <div class="input-box">
+                                                    <div class="text-input">
+                                                        {{ company.city.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="field">
+                                            <label class="d-block">{{ "latitude" | translate }} </label>
+                                            <div class="input-box-content">
+                                                <div class="input-box">
+                                                    <div class="text-input">
+                                                        {{ company.latitude }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="field">
+                                            <label class="d-block">{{ "longitude" | translate }} </label>
+                                            <div class="input-box-content">
+                                                <div class="input-box">
+                                                    <div class="text-input">
+                                                        {{ company.longitude }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                        </div>
+                        <div *ngIf="!company" class="col-12">Seleccione</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="border-title">
+                                {{ "location" | translate }}
+                            </h4>
+                        </div>
+                        <div [hidden]="!company" class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{ "validation" | translate }} </label>
+                                    <p-dropdown id="statuValidate" [(ngModel)]="companyStatus" (onChange)="statusValidation($event)" [options]="listStatus" optionLabel="name" class="" [filter]="true" filterBy="name" [placeholder]="'select' | translate" [autoDisplayFirst]="false">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="country-item country-item-value">
+                                                <div>{{ companyStatus.name | translate }}</div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-statusv pTemplate="item">
+                                            <div class="country-item">
+                                                <div>{{ statusv.name | translate }}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <div *ngIf="modelValidErr['statuValidate'].err && modelValidErr['statuValidate'].touched " class="text-danger ps-2 pt-1 font-12">
+                                        <small id="statuValidate-help" *ngIf="modelValidErr['statuValidate'].err" class="block">{{modelValidErr['statuValidate'].message | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="companyBK && 
+                  (companyBK.latitude != this.position.lat ||
+                  companyBK.longitude != this.position.lng)
+                " class="col-12">
+                                <button (click)="resetCompanyDefaultCoordenates()" class="btn btn-pf-primary export-btn">
+                  {{ "reset_coordinates" | translate }}
+                </button>
+                            </div>
+
+                            <div class="col-12">
+                                <input type="text" [readonly]="(!is_productor)" class="pf-input text-search" (keydown.enter)="$event.preventDefault()" [placeholder]="'search_location' | translate" #search />
+                                <google-map [options]="options" (mapClick)="addMarker($event)" [center]="position" width="100%" style="border-radius: 27px !important">
+                                    <map-marker [options]="markerOptions" [position]="position" (mapDragend)="gragMarker($event)">
+                                    </map-marker>
+                                </google-map>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="field">
+                                    <label class="d-block">{{'note' | translate}} <span class="text-danger">*</span></label>
+                                    <textarea id="note" name="note" (keyup)="noteKeyUp()" [(ngModel)]="validateNoteV" class="w-100" type="text" [placeholder]="'note' | translate" pInputText></textarea>
+                                    <div *ngIf="modelValidErr['note'].err && modelValidErr['note'].touched " class="text-danger ps-2 pt-1 font-12">
+                                        <small id="password-help" *ngIf="modelValidErr['note'].err" class="block">{{modelValidErr['note'].message | translate}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button (click)="saveValidation()" class="btn btn-pf-primary p-btn" type="submit">
+                  <img
+                    src="assets/images/save.png"
+                    class="me-2 btn-img"
+                    width="20px"
+                    alt=""
+                  />
+                  {{ "validate" | translate }}
+                </button>
+                            </div>
+
+                        </div>
+                        <div *ngIf="!company" class="col-12">Seleccione</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+<form autocomplete="off" [formGroup]="form" (ngSubmit)="register()">
+    <div class="page-header animate__animated animate__fadeIn">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title table-responsive">
+                        <button class="btn btn-pf-primary me-2" type="button" (click)="location.back()" style="margin-bottom: 0.5rem;">
+                            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="">
+                        </button>
+                        <div class="position-relative" *ngIf="dataForm">
+                            <h2 id="title" class="m-b-10" [innerHtml]="dataForm.name | translate | changeTitle"></h2>
+                        </div>
+                        <button class="btn btn-pf-primary ms-auto" type="button" (click)="moreObservation()"> {{'observations' | translate}} </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-4 animate__animated animate__fadeIn">
+                <div class="col-sm-12">
+
+                    <!-- <button (click)="consoleaa();">a</button> -->
+                    <div class="row position-relative">
+                        <div class="col-10 offset-1 col-xs-12">
+                            <div class="row">
+                                <div *ngFor="let group of questions; let i = index" class="col-12 mb-4" id="group_question_{{i+1}}">
+                                    <div class="folder">
+                                        <span class="text-white font-12 item-folder">
+                                            {{'group' | translate: {position: (i+1)} }} {{'of' | translate}} {{questions.length}}
+                                        </span>
+                                        <div class="">
+                                            <!-- <i class="pi pi-cog cursor-pointer cog"></i> -->
+                                            <div class="position-absolute div-group">
+                                                <input id="name_group_{{i+1}}" class="input-edit-code form-control input-group me-1" [value]="name_group[i+1]" readonly type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-3 pt-3 list_question_group">
+                                        <div *ngFor="let item of group[(i+1)]; let j = index">
+                                            <div class="card mx-auto card-question mb-3 animate__animated" id="card_{{item.id}}">
+                                                <div class="card-body" [innerHtml]="item.html"></div>
+                                                <!-- <div class="p-3 d-flex align-items-center">
+                                                            <div class="form-check d-flex form-switch me-auto align-items-center">
+                                                                <span class="font-12 mx-1">{{'require' | translate}}</span><input (click)="setRequire($event, item, i, j)" class="form-check-input" name="inputRequired" type="checkbox" role="switch" id="require_{{item.id}}">
+                                                            </div>
+                                                            <div class="ms-auto">
+                                                                <button class="btn btn-pf-primary" (click)="deleteQuetion(item, i, j)" type="submit"> {{'delete' | translate}} </button>
+                                                            </div>
+                                                        </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2" *ngIf="dataForm&&dataForm.status_form == 'ACTIVE'">
+                                <!-- <div class="col-12 mt-2"> -->
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <div class="form-check w-100">
+                                        <input formControlName="accept_data" class="form-check-input" type="checkbox" value="" id="accept_data">
+                                        <label class="form-check-label font-13" for="accept_data">
+                                                {{'yes_accept' | translate}} <a href="javascript: void(0);">{{'accep_data' | translate}}</a>
+                                            </label>
+                                    </div>
+                                    <div *ngIf="f['accept_data'].invalid && f['accept_data'].touched && f['accept_data'].errors!=null" class="text-danger ps-2 font-12">
+                                        <small id="phone-help" *ngIf="f['accept_data'].errors['required']" class="block">{{'accept_politics2' | translate}}</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-end">
+                                    <button class="btn btn-pf-primary w-100" type="submit"> {{'finalize' | translate}} </button>
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p-dialog [(visible)]="displayRegister" [modal]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '35vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3 class="text-center"><b> {{'register_success' | translate}} </b></h3>
+            <p>{{'description_register_success' | translate}}</p>
+        </div>
+        <div class="col-12">
+            <img src="assets/images/check.png" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-12 pt-4">
+            <button class="btn btn-pf-primary p-btn" (click)="listForms()"> {{'accept' | translate}} </button>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog [(visible)]="displayObservation" [modal]="true" [breakpoints]="{'960px': '95vw'}" [style]="{width: '55vw'}" [draggable]="false" [resizable]="false" styleClass="dialog-delete dialog-question">
+    <div class="p-dialog-header-icons close-icon">
+        <button type="button" class="p-ripple p-element  p-dialog-header-icon p-dialog-header-close p-link" (click)="observations=[];displayObservation=false;"><span class="p-dialog-header-close-icon pi pi-times" ></span></button>
+    </div>
+    <div class="container">
+        <div class="row pb-2 mb-2">
+            <div class="col-12">
+                <h5 class="text-center"><b> {{'observations' | translate}} </b></h5>
+            </div>
+            <ng-container *ngIf="observations && observations.length>0; else noObservation">
+                <div class="row py-0 my-0 mx-auto" *ngFor="let observation of observations; let i = index">
+                    <div class="col-12 py-0 my-0">
+                        <div class="card mx-auto card-question mb-2 mx-0 px-0" style="border-radius: 10px;">
+                            <div class="card-header font-14">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <b>{{'group' | translate: {position: (i+1)} }}</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body font-12">
+                                <div class="row py-0 my-0" *ngFor="let item of observation; let i = index">
+                                    <div class="col-12 py-0 my-0">
+                                        <div class="card mx-auto card-question mb-2 mx-0 px-0" style="border-radius: 10px;">
+                                            <div class="card-body font-12">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b>{{item[0].question_data.label[lang.code]}}</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b>{{'reviewed_by' | translate}}: </b> {{item[0].reviewed_by__email?item[0].reviewed_by__email:('no_records' | translate)}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b>{{'observation' | translate}}: </b> <br> {{item[0].reviewer_observations?item[0].reviewer_observations:('no_records' | translate)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #noObservation>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mx-auto card-question" style="border-radius: 10px;">
+                            <div class="card-body">
+                                {{'no_records' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="col-12 text-center pt-2 footer-btn-obs">
+                <button class="btn btn-pf-primary p-btn" (click)="observations=[];displayObservation=false;"> {{'accept' | translate}} </button>
+            </div>
+        </div>
+    </div>
+
+</p-dialog>

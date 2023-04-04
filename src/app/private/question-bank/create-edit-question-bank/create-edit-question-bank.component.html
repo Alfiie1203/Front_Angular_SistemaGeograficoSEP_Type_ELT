@@ -1,0 +1,60 @@
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <ng-container *ngIf="title; else noTitle">
+                        <h2 class="m-b-10 header-title" [innerHtml]="title | translate | changeTitle"></h2>
+                    </ng-container>
+                    <ng-template #noTitle>
+                        <h2 class="m-b-10 header-title" [innerHtml]="'select_option' | translate | changeTitle"></h2>
+                    </ng-template>
+
+                    <p-dropdown *ngIf="!update" appendTo="body" [options]="options" class="ml-auto w-25 selected-option" styleClass="p-dropdown-option" [(ngModel)]="selectedOption" [placeholder]="'select_option' | translate" optionLabel="name" (onChange)="setOption()">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item country-item-value" *ngIf="selectedOption">
+                                <div class="align-items-center d-flex"> <img class="me-1" [src]="selectedOption.img" alt=""> {{selectedOption.name | translate}}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-question pTemplate="item">
+                            <div class="question-item">
+                                <div class="align-items-center d-flex"><img width="15px" class="me-1" [src]="question.img" alt=""> {{question.name | translate}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-4 animate__animated animate__fadeIn">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+        <button class="btn btn-pf-primary mb-2" routerLink="/question-bank">
+            <img src="assets/images/back.svg" class="btn-img" width="20px" alt="">
+        </button>
+    </div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="card">
+            <div class="card-body">
+                <ng-container *ngIf="selectedOption; else noOption">
+                    <app-open-question [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='open_question'"></app-open-question>
+                    <app-select-one [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='select_one'"></app-select-one>
+                    <app-select-one-list [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='select_one_list'" [type]="selectedOption.type"></app-select-one-list>
+                    <app-select-multiple [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='select_multiple'"></app-select-multiple>
+                    <app-matrix-select-multiple [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='matrix_select_multiple'"></app-matrix-select-multiple>
+                    <app-matrix-select-one [options]="options" (optionQuestion)="setOptionQuestion($event)" [data]="data" *ngIf="selectedOption.code=='matrix_select_one'"></app-matrix-select-one>
+                    <app-matrix-list [options]="options" [data]="data" *ngIf="selectedOption.code=='matrix_list'" (optionQuestion)="setOptionQuestion($event)"></app-matrix-list>
+                    <app-upload-file [options]="options" [data]="data" *ngIf="selectedOption.code=='upload_file'" (optionQuestion)="setOptionQuestion($event)"></app-upload-file>
+                </ng-container>
+                <ng-template #noOption>
+                    <div class="des-question-bank w-75 py-5 my-5 mx-auto">
+                        <h4>
+                            {{'des_question_bank' | translate }}
+                        </h4>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+</div>

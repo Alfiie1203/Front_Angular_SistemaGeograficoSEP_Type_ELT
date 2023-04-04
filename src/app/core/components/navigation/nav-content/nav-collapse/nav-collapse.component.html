@@ -1,0 +1,76 @@
+<ng-container *ngIf="!item.hidden">
+  <ng-container *ngIf="isItem; else noItem">
+    <ng-container *ngIf="permisionStatus[item.id]">
+      <li *ngIf="themeLayout === 'horizontal'" (mouseenter)="navCollapse($event)" class="nav-item pcoded-hasmenu font-14" [routerLinkActive]="['active']">
+        <a [routerLinkActive]="['active']" href="javascript:" class="nav-link">
+          <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+        </a>
+        <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+      </li>
+      <li *ngIf="themeLayout === 'vertical'" class="nav-item pcoded-hasmenu font-14" [routerLinkActive]="['active']">
+        <a [routerLinkActive]="['active']" href="javascript:" class="nav-link" (click)="navCollapse($event)">
+          <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+        </a>
+        <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+      </li>
+      <ng-template #itemContent>
+          <span class="pcoded-micon" *ngIf="item.icon">
+            <img class="img-collapse" [src]="item.icon"/>
+          </span>
+        <span class="pcoded-mtext">{{item.title | translate}}
+          <span *ngIf="item.badge && themeLayout === 'horizontal'" class="badge label" [ngClass]="item.badge.type">
+            {{item.badge.title}}
+          </span>
+        </span>
+        <span *ngIf="item.badge && themeLayout === 'vertical'" class="pcoded-badge label" [ngClass]="item.badge.type">
+            {{item.badge.title}}
+          </span>
+      </ng-template>
+      <ng-template #subMenuContent>
+        <ul class="pcoded-submenu" [routerLinkActive]="['active']">
+          <ng-container *ngFor="let item of item.children">
+            <app-nav-group *ngIf="item.type=='group'" [item]="item" [permissions]="permissions"></app-nav-group>
+            <app-nav-collapse *ngIf="item.type=='collapse'" [item]="item" [permissions]="permissions"></app-nav-collapse>
+            <app-nav-item *ngIf="item.type=='item'" [item]="item" [permissions]="permissions"></app-nav-item>
+          </ng-container>
+        </ul>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-template #noItem>
+    <li *ngIf="themeLayout === 'horizontal'" (mouseenter)="navCollapse($event)" class="nav-item pcoded-hasmenu font-14" [routerLinkActive]="['active']">
+      <a [routerLinkActive]="['active']" href="javascript:" class="nav-link">
+        <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+      </a>
+      <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+    </li>
+    <li *ngIf="themeLayout === 'vertical'" class="nav-item pcoded-hasmenu font-14" [routerLinkActive]="['active']">
+      <a [routerLinkActive]="['active']" href="javascript:" class="nav-link" (click)="navCollapse($event)">
+        <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+      </a>
+      <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+    </li>
+    <ng-template #itemContent>
+        <span class="pcoded-micon" *ngIf="item.icon">
+          <img class="img-collapse" [src]="item.icon"/>
+        </span>
+      <span class="pcoded-mtext">{{item.title | translate}}
+        <span *ngIf="item.badge && themeLayout === 'horizontal'" class="badge label" [ngClass]="item.badge.type">
+          {{item.badge.title}}
+        </span>
+      </span>
+      <span *ngIf="item.badge && themeLayout === 'vertical'" class="pcoded-badge label" [ngClass]="item.badge.type">
+          {{item.badge.title}}
+        </span>
+    </ng-template>
+    <ng-template #subMenuContent>
+      <ul class="pcoded-submenu" [routerLinkActive]="['active']">
+        <ng-container *ngFor="let item of item.children">
+          <app-nav-group *ngIf="item.type=='group'" [item]="item" [permissions]="permissions"></app-nav-group>
+          <app-nav-collapse *ngIf="item.type=='collapse'" [item]="item" [permissions]="permissions"></app-nav-collapse>
+          <app-nav-item *ngIf="item.type=='item'" [item]="item" [permissions]="permissions"></app-nav-item>
+        </ng-container>
+      </ul>
+    </ng-template>
+  </ng-template>
+</ng-container>
